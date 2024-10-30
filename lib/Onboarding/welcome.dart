@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -19,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    // Automatically change the background images every 5 seconds
+    // want to achieve changing images every 5 seconds
     _startImageRotation();
   }
 
@@ -120,7 +122,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ? const SizedBox.shrink()
                 : TextButton(
                     onPressed: () {
-                      _controller.jumpToPage(2); // Skip to the last page
+                      _controller
+                          .jumpToPage(2); // to be able Skip to the last page
                     },
                     child: const Text('Skip',
                         style: TextStyle(color: Colors.white)),

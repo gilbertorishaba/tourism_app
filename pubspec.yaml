@@ -23,6 +23,8 @@ dev_dependencies:
     sdk: flutter
   # Recommended lints for good coding practices.
   flutter_lints: ^4.0.0
+  google_nav_bar: ^5.0.6
+
 
 flutter:
   assets:
@@ -47,6 +49,7 @@ flutter:
     - assets/img15.jpg
     - assets/img16.jpg
     - assets/logo.jpg
+   
 
 # Ensures that the Material Icons font is included with your application.
 uses-material-design: true

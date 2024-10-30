@@ -85,6 +85,7 @@ class LoginScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       //to change screen and display the home screen after a successfully login
+                      //navigator will lead us to a series of routes that will enable us to route to different pages of the application
                       Navigator.pushNamed(context, '/home');
                     },
                     style: ElevatedButton.styleFrom(

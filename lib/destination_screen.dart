@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Add carousel slider for smooth sliding effect
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class DestinationScreen extends StatelessWidget {
   const DestinationScreen({super.key});
