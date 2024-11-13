@@ -18,14 +18,16 @@ class TourismApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tourism App',
+      title: 'LAITI Tourism App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/onboarding', // Set onboarding as the initial route
       routes: {
-        '/': (context) => const OnboardingScreen(),
-        '/login': (context) => const MainScreen(child: LoginScreen()),
+        '/onboarding': (context) =>
+            const OnboardingScreen(), // Define onboarding screen route
+        '/login': (context) => const MainScreen(
+            child: LoginScreen()), // Login screen after onboarding
         '/home': (context) => const MainScreen(child: HomeScreen()),
         '/destination': (context) =>
             const MainScreen(child: DestinationScreen()),
@@ -59,6 +61,22 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // Navigate to different screens based on index
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/destination');
+        break;
+      case 2:
+        // You can add a search screen here if you have one
+        break;
+      case 3:
+        // Navigate to settings screen when implemented
+        break;
+    }
   }
 
   @override
@@ -66,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: const Text('Tourism App'),
+        title: const Text('LAITI Tourism App'),
       ),
       body: widget.child,
       drawer: Drawer(
@@ -83,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.favorite),
-              title: const Text('Favorite Destinations'),
+              title: const Text('Destinations'),
               onTap: () {
                 Navigator.pushNamed(context, '/destination');
               },
@@ -131,7 +149,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               GButton(
                 icon: Icons.favorite,
-                text: 'Favorite Destinations',
+                text: 'Destinations',
               ),
               GButton(
                 icon: Icons.search,

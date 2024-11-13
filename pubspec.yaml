@@ -51,6 +51,8 @@ flutter:
     - assets/img15.jpg
     - assets/img16.jpg
     - assets/logo.jpg
+    - assets/background.jpg
+
    
 
 # Ensures that the Material Icons font is included with your application.

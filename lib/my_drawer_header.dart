@@ -34,7 +34,7 @@ class MyHeaderDrawer extends StatelessWidget {
             ),
           ),
           Text(
-            'info@BBC.com', // Replace with dynamic email if needed
+            'info@laiti.com',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

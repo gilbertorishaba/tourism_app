@@ -165,167 +165,179 @@ class _DestinationScreenState extends State<DestinationScreen> {
         title: const Text('Explore Destinations'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'Discover Amazing Places Around the World',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
+      body: Container(
+        // banner
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.jpg'),
+            fit: BoxFit.cover,
+            opacity: 0.4,
           ),
-          // Search bar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search location or destination...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                prefixIcon: const Icon(Icons.search),
+        ),
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Discover Amazing Places Around the World',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-              onChanged: (value) {
-                // Update search query and filter destinations
-                setState(() {
-                  searchQuery = value;
-                });
-                _filterDestinations(value);
-              },
             ),
-          ),
-          Expanded(
-            child: filteredDestinations.isEmpty
-                ? const Center(
-                    child: Text(
-                      'No destinations found!',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: CarouselSlider.builder(
-                      itemCount: filteredDestinations.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final destination = filteredDestinations[index];
+            // Search bar
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search location or destination...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: const Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  // Update search query and filter destinations
+                  setState(() {
+                    searchQuery = value;
+                  });
+                  _filterDestinations(value);
+                },
+              ),
+            ),
+            Expanded(
+              child: filteredDestinations.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'No destinations found!',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      child: CarouselSlider.builder(
+                        itemCount: filteredDestinations.length,
+                        itemBuilder: (context, index, realIndex) {
+                          final destination = filteredDestinations[index];
 
-                        return GestureDetector(
-                          onTap: () {
-                            // Show dialog with more details
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text(destination['title']),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      destination['image'],
-                                      fit: BoxFit.cover,
+                          return GestureDetector(
+                            onTap: () {
+                              // Show dialog with more details
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(destination['title']),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        destination['image'],
+                                        fit: BoxFit.cover,
 
-                                      // changed
-                                      height: 100,
-                                      width: double.infinity,
+                                        // changed
+                                        height: 100,
+                                        width: double.infinity,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(destination['description']),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Close'),
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text(destination['description']),
                                   ],
                                 ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Close'),
+                              );
+                            },
+                            child: Card(
+                              elevation: 5,
+                              margin: const EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.25,
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(15),
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                          top: Radius.circular(15)),
+                                      child: Image.asset(
+                                        destination['image'],
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          destination['title'],
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(destination['description'],
+                                            style:
+                                                const TextStyle(fontSize: 16)),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          'Location: ${destination['location']}',
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          'Price: ${destination['price']}',
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.green),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              // Implement booking logic
+                                            },
+                                            child: const Text('Book Now'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 5,
-                            margin: const EdgeInsets.all(10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.25,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(15),
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(15)),
-                                    child: Image.asset(
-                                      destination['image'],
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        destination['title'],
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(destination['description'],
-                                          style: const TextStyle(fontSize: 16)),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'Location: ${destination['location']}',
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'Price: ${destination['price']}',
-                                        style: const TextStyle(
-                                            fontSize: 18, color: Colors.green),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            // Implement booking logic
-                                          },
-                                          child: const Text('Book Now'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height *
-                            0.6, // Adjust carousel height
-                        enlargeCenterPage: true,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 5),
-                        aspectRatio: 16 / 9,
-                        enableInfiniteScroll: true,
-                        initialPage: 0,
+                          );
+                        },
+                        options: CarouselOptions(
+                          height: MediaQuery.of(context).size.height *
+                              0.6, // Adjust carousel height
+                          enlargeCenterPage: true,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 5),
+                          aspectRatio: 16 / 9,
+                          enableInfiniteScroll: true,
+                          initialPage: 0,
+                        ),
                       ),
                     ),
-                  ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
