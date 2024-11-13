@@ -24,6 +24,8 @@ dev_dependencies:
   # Recommended lints for good coding practices.
   flutter_lints: ^4.0.0
   google_nav_bar: ^5.0.6
+   # intl package for date formatting
+  intl: ^0.18.0
 
 
 flutter:
@@ -67,3 +69,11 @@ uses-material-design: true
 #       - asset: fonts/TrajanPro.ttf
 #       - asset: fonts/TrajanPro_Bold.ttf
 #         weight: 700
+
+# added Noto font to be able to display all the missing 
+fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/NotoSans-Regular.ttf
+        - asset: assets/fonts/NotoSans-Bold.ttf
+          weight: 700

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tourism_app/my_drawer_header.dart';
+import 'my_drawer_header.dart'; // Correct import for MyHeaderDrawer
 import 'login_screen.dart';
 import 'home_screen.dart';
 import 'destination_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'Onboarding/welcome.dart';
+import 'booking_screen.dart';
 
 void main() {
   runApp(const TourismApp());
@@ -28,12 +29,20 @@ class TourismApp extends StatelessWidget {
         '/home': (context) => const MainScreen(child: HomeScreen()),
         '/destination': (context) =>
             const MainScreen(child: DestinationScreen()),
+        '/booking': (context) {
+          final Map<String, String> args =
+              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          return BookingScreen(
+            destinationTitle: args['destinationTitle']!,
+            price: args['price']!,
+          );
+        },
       },
     );
   }
 }
 
-// MainScreen Wrapper that contains the Navigation Bar and Drawer
+// MainScreen Wrapper that contains the Navigation Bar
 class MainScreen extends StatefulWidget {
   final Widget child;
 
@@ -61,10 +70,46 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: widget.child,
       drawer: Drawer(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [const MyHeaderDrawer(), MyDrawerList()],
-          ),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const MyHeaderDrawer(), // Updated to use MyHeaderDrawer
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favorite Destinations'),
+              onTap: () {
+                Navigator.pushNamed(context, '/destination');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_online),
+              title: const Text('Booking'),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/booking',
+                  arguments: {
+                    'destinationTitle': 'Maldives',
+                    'price': '500 USD',
+                  },
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                // Navigate to Settings screen
+              },
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Container(
@@ -76,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
             backgroundColor: Colors.black,
             color: Colors.white,
             activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
+            tabBackgroundColor: Colors.grey,
             onTabChange: _onTabChange,
             padding: const EdgeInsets.all(16),
             tabs: const [
@@ -85,8 +130,8 @@ class _MainScreenState extends State<MainScreen> {
                 text: 'Home',
               ),
               GButton(
-                icon: Icons.favorite_border,
-                text: 'Favorites',
+                icon: Icons.favorite,
+                text: 'Favorite Destinations',
               ),
               GButton(
                 icon: Icons.search,
@@ -100,50 +145,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  // Drawer List Items
-  Widget MyDrawerList() {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        ListTile(
-          leading: const Icon(Icons.home),
-          title: const Text('Home'),
-          onTap: () {
-            Navigator.pushNamed(context, '/home');
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.favorite),
-          title: const Text('Favorites'),
-          onTap: () {
-            // Add logic for the Favorites screen
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.travel_explore),
-          title: const Text('Sites'),
-          onTap: () {
-            // Add logic for the Favorites screen
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.favorite),
-          title: const Text('Destinations'),
-          onTap: () {
-            // Add logic for the Favorites screen
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.settings),
-          title: const Text('Settings'),
-          onTap: () {
-            // Add logic for the Settings screen
-          },
-        ),
-      ],
     );
   }
 }

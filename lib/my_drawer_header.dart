@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MyHeaderDrawer extends StatefulWidget {
-  const MyHeaderDrawer({super.key});
+class MyHeaderDrawer extends StatelessWidget {
+  const MyHeaderDrawer({Key? key}) : super(key: key);
 
-  @override
-  State<MyHeaderDrawer> createState() => _MyHeaderDrawerState();
-}
-
-class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,22 +17,30 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
             margin: const EdgeInsets.only(bottom: 10),
             height: 70,
             decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage('assets/images/profile.jpg'))),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage(
+                    'assets/images/profile.jpg'), // Ensure the image path is correct
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           const Text(
-            'Might class',
+            'Might class', // You can change this text to be dynamic
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           Text(
-            'info@BBC.com',
+            'info@BBC.com', // Replace with dynamic email if needed
             style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[200]),
-          )
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[200],
+            ),
+          ),
         ],
       ),
     );
