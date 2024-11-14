@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'my_drawer_header.dart'; // Correct import for MyHeaderDrawer
+import 'my_drawer_header.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
 import 'destination_screen.dart';
@@ -22,12 +22,11 @@ class TourismApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/onboarding', // Set onboarding as the initial route
+      initialRoute: '/onboarding',
       routes: {
-        '/onboarding': (context) =>
-            const OnboardingScreen(), // Define onboarding screen route
-        '/login': (context) => const MainScreen(
-            child: LoginScreen()), // Login screen after onboarding
+        '/onboarding': (context) => const OnboardingScreen(),
+        '/login': (context) =>
+            const LoginScreen(), // No MainScreen wrapper here
         '/home': (context) => const MainScreen(child: HomeScreen()),
         '/destination': (context) =>
             const MainScreen(child: DestinationScreen()),
@@ -71,10 +70,10 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.pushNamed(context, '/destination');
         break;
       case 2:
-        // You can add a search screen here if you have one
+        Navigator.pushNamed(context, '/Search');
         break;
       case 3:
-        // Navigate to settings screen when implemented
+        Navigator.pushNamed(context, '/Booking');
         break;
     }
   }
@@ -83,15 +82,19 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green[700],
-        title: const Text('LAITI Tourism App'),
+        backgroundColor: Colors.indigo,
+        title: const Text(
+          'LAITI Tourism App',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: widget.child,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const MyHeaderDrawer(), // Updated to use MyHeaderDrawer
+            const MyHeaderDrawer(),
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
@@ -124,7 +127,7 @@ class _MainScreenState extends State<MainScreen> {
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
-                // Navigate to Settings screen
+                Navigator.pushNamed(context, '/Settings');
               },
             ),
           ],

@@ -301,13 +301,13 @@ class _BookingScreenState extends State<BookingScreen> {
                       controller: _pageController,
                       scrollDirection: Axis.horizontal,
                       children: [
-                        _buildSlidingImage('assets/image1.jpg'),
-                        _buildSlidingImage('assets/image2.jpg'),
-                        _buildSlidingImage('assets/image3.jpg'),
+                        _buildSlidingImage('assets/banner.jpg'),
+                        _buildSlidingImage('assets/img5.jpg'),
+                        _buildSlidingImage('assets/img3.jpg'),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20), // Space between carousel and content
+                  const SizedBox(height: 20),
 
                   // Booking details section
                   Card(
@@ -316,8 +316,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    color: Colors
-                        .brown.shade50, // Earthy brown background for card
+                    color: Colors.brown.shade50,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -327,7 +326,7 @@ class _BookingScreenState extends State<BookingScreen> {
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: Colors.green[900], // Deep green for text
+                              color: Colors.green[900],
                             ),
                           ),
                           SizedBox(height: 10),

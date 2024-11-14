@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       // Only keeping the blue AppBar here
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.indigo,
         title: const Text(
           'Login to LAITI Tourism App',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
