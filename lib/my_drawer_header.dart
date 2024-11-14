@@ -1,45 +1,58 @@
+// app_drawer.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-class MyHeaderDrawer extends StatelessWidget {
-  const MyHeaderDrawer({Key? key}) : super(key: key);
+class MyDrawerHeader extends StatelessWidget {
+  const MyDrawerHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green[700],
-      width: double.infinity,
-      height: 200,
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            height: 70,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage(
-                    'assets/images/profile.jpg'), // Ensure the image path is correct
-                fit: BoxFit.cover,
-              ),
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.teal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/img4.jpg'),
+                  radius: 30,
+                ),
+                SizedBox(height: 10),
+                Text('Welcome, Traveler!',
+                    style: TextStyle(color: Colors.white, fontSize: 18)),
+              ],
             ),
           ),
-          const Text(
-            'Might class', // You can change this text to be dynamic
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          ListTile(
+            leading: const Icon(CupertinoIcons.settings),
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.pushNamed(context, '/home');
+            },
           ),
-          Text(
-            'info@laiti.com',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[200],
-            ),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: const Text('Destinations'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/Destination');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.travel_explore),
+            title: const Text('Booking'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/booking');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Setting'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/settings');
+            },
           ),
         ],
       ),

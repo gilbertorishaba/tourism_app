@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,61 +9,59 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool showFacebookLogin = false;
-  bool showGoogleLogin = false;
+  String selectedLanguage = 'English';
 
-  void _forgotPasswordDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Forgot Password'),
-          content: const TextField(
-            decoration: InputDecoration(
-              labelText: 'Enter your email',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _showResetSent();
-              },
-              child: const Text('Send Reset Link'),
-            ),
-          ],
-        );
-      },
-    );
+  // List of languages and their corresponding locales
+  final Map<String, Locale> languageMap = {
+    'English': const Locale('en', 'US'),
+    'Spanish': const Locale('es', 'ES'),
+    'French': const Locale('fr', 'FR'),
+    'German': const Locale('de', 'DE'),
+    'Italian': const Locale('it', 'IT'),
+    'Russian': const Locale('ru', 'RU'),
+    'Chinese': const Locale('zh', 'CN'),
+    'Japanese': const Locale('ja', 'JP'),
+    'Arabic': const Locale('ar', 'AE'),
+    'Portuguese': const Locale('pt', 'PT'),
+  };
+
+  // To change the app locale dynamically
+  void _changeLanguage(String language) {
+    setState(() {
+      selectedLanguage = language;
+    });
+    // Set the app locale
+    Locale locale = languageMap[language] ?? Locale('en', 'US');
+    MyApp.of(context)?.setLocale(locale);
   }
 
-  void _showResetSent() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Password reset link sent to your email!'),
-      ),
+  void _showLanguageSelection() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: languageMap.keys.map((language) {
+              return ListTile(
+                title: Text(language),
+                onTap: () {
+                  _changeLanguage(language);
+                  Navigator.pop(context);
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Only keeping the blue AppBar here
-      appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: const Text(
-          'Login to LAITI Tourism App',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -75,27 +74,45 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50),
-                Center(
-                  child: Column(
-                    children: [
-                      Image.asset('assets/logo.jpg', height: 100),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Welcome to LAITI Tourism App',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.indigo,
+
+                // Centered Language Selection
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: _showLanguageSelection,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.language, color: Colors.black),
+                        const SizedBox(width: 10),
+                        Text(
+                          selectedLanguage,
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 16),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30),
+
+                // Logo
+                Image.asset('assets/logo.jpg', height: 100),
+                const SizedBox(height: 10),
+                const Text(
+                  'Welcome to LAITI Tourism App',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo,
+                  ),
+                ),
+                const SizedBox(height: 30),
+
                 // Banner image
                 Container(
                   height: 220,
@@ -161,15 +178,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 10),
                 Center(
                   child: TextButton(
-                    onPressed: _forgotPasswordDialog,
+                    onPressed: () {
+                      // Forgot password logic
+                    },
                     child: const Text(
                       'Forgot Password?',
                       style: TextStyle(color: Colors.indigo),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Social login options
+
+                // Social Login Options
                 Center(
                   child: Column(
                     children: [
@@ -181,9 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
-                              setState(() {
-                                showFacebookLogin = !showFacebookLogin;
-                              });
+                              // Handle Facebook login
                             },
                             icon: const Icon(Icons.facebook),
                             label: const Text('Facebook'),
@@ -199,9 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(width: 10),
                           ElevatedButton.icon(
                             onPressed: () {
-                              setState(() {
-                                showGoogleLogin = !showGoogleLogin;
-                              });
+                              // Handle Google login
                             },
                             icon: const Icon(Icons.g_mobiledata),
                             label: const Text('Google'),
@@ -219,29 +234,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                if (showFacebookLogin)
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: const Text('Facebook Login Coming Soon...'),
-                    ),
-                  ),
-                if (showGoogleLogin)
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.red[50],
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: const Text('Google Login Coming Soon...'),
-                    ),
-                  ),
               ],
             ),
           ),
@@ -249,4 +241,53 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  static _MyAppState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_MyAppState>();
+  }
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = Locale('en', 'US'); // Default locale
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      locale: _locale,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('de', 'DE'),
+        Locale('it', 'IT'),
+        Locale('ru', 'RU'),
+        Locale('zh', 'CN'),
+        Locale('ja', 'JP'),
+        Locale('ar', 'AE'),
+        Locale('pt', 'PT'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      home: const LoginScreen(),
+    );
+  }
+}
+
+void main() {
+  runApp(const MyApp());
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localizations.dart';
 import 'my_drawer_header.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
@@ -22,11 +24,29 @@ class TourismApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // Localization delegates & supported locales
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('es', 'ES'), // Spanish
+        Locale('fr', 'FR'), // French
+        Locale('de', 'DE'), // German
+        Locale('it', 'IT'), // Italian
+        Locale('ru', 'RU'), // Russian
+        Locale('zh', 'CN'), // Chinese
+        Locale('ja', 'JP'), // Japanese
+        Locale('ar', 'AE'), // Arabic
+        Locale('pt', 'PT'), // Portuguese
+      ],
       initialRoute: '/onboarding',
       routes: {
         '/onboarding': (context) => const OnboardingScreen(),
-        '/login': (context) =>
-            const LoginScreen(), // No MainScreen wrapper here
+        '/login': (context) => const LoginScreen(),
         '/home': (context) => const MainScreen(child: HomeScreen()),
         '/destination': (context) =>
             const MainScreen(child: DestinationScreen()),
@@ -83,9 +103,9 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text(
-          'LAITI Tourism App',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.translate('LAITI'),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -94,24 +114,25 @@ class _MainScreenState extends State<MainScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const MyHeaderDrawer(),
+            MyDrawerHeader(),
             ListTile(
               leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              title: Text(AppLocalizations.of(context)!.translate('home')),
               onTap: () {
                 Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
               leading: const Icon(Icons.favorite),
-              title: const Text('Destinations'),
+              title:
+                  Text(AppLocalizations.of(context)!.translate('destinations')),
               onTap: () {
                 Navigator.pushNamed(context, '/destination');
               },
             ),
             ListTile(
               leading: const Icon(Icons.book_online),
-              title: const Text('Booking'),
+              title: Text(AppLocalizations.of(context)!.translate('booking')),
               onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -125,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              title: Text(AppLocalizations.of(context)!.translate('settings')),
               onTap: () {
                 Navigator.pushNamed(context, '/Settings');
               },
@@ -145,22 +166,22 @@ class _MainScreenState extends State<MainScreen> {
             tabBackgroundColor: Colors.grey,
             onTabChange: _onTabChange,
             padding: const EdgeInsets.all(16),
-            tabs: const [
+            tabs: [
               GButton(
                 icon: Icons.home,
-                text: 'Home',
+                text: AppLocalizations.of(context)!.translate('home'),
               ),
               GButton(
                 icon: Icons.favorite,
-                text: 'Destinations',
+                text: AppLocalizations.of(context)!.translate('destinations'),
               ),
               GButton(
                 icon: Icons.search,
-                text: 'Search',
+                text: AppLocalizations.of(context)!.translate('search'),
               ),
               GButton(
                 icon: Icons.settings,
-                text: 'Settings',
+                text: AppLocalizations.of(context)!.translate('settings'),
               ),
             ],
           ),

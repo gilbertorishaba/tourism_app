@@ -1,0 +1,64 @@
+{
+    "appBar": {
+      "title": "Login to LAITI Tourism App",
+      "backgroundColor": "#4B0082",
+      "titleStyle": {
+        "fontSize": 20,
+        "fontWeight": "bold"
+      }
+    },
+    "heroSection": {
+      "logo": "assets/logo.jpg",
+      "welcomeText": "Welcome to LAITI Tourism App",
+      "welcomeTextStyle": {
+        "fontSize": 26,
+        "fontWeight": "bold",
+        "color": "#4B0082"
+      },
+      "bannerImage": "assets/paris.jpg",
+      "bannerHeight": 220
+    },
+    "loginForm": {
+      "emailField": {
+        "label": "Email",
+        "icon": "email"
+      },
+      "passwordField": {
+        "label": "Password",
+        "icon": "lock",
+        "obscureText": true
+      },
+      "loginButton": {
+        "label": "Login",
+        "backgroundColor": "#4B0082",
+        "textColor": "#FFFFFF"
+      },
+      "forgotPasswordText": "Forgot Password?",
+      "forgotPasswordAction": "forgotPasswordDialog"
+    },
+    "socialLogin": {
+      "facebook": {
+        "label": "Facebook",
+        "icon": "facebook",
+        "backgroundColor": "#3b5998",
+        "loginText": "Facebook Login Coming Soon..."
+      },
+      "google": {
+        "label": "Google",
+        "icon": "google",
+        "backgroundColor": "#db4437",
+        "loginText": "Google Login Coming Soon..."
+      }
+    },
+    "dialogs": {
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "inputLabel": "Enter your email",
+        "actions": {
+          "cancel": "Cancel",
+          "sendResetLink": "Send Reset Link"
+        }
+      }
+    }
+  }
+  
