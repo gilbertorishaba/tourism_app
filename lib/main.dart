@@ -217,7 +217,8 @@ class TourismApp extends StatelessWidget {
       initialRoute: '/onboarding',
       routes: {
         '/onboarding': (context) => (const OnboardingScreen()),
-        '/home': (context) => (const HomeScreen()),
+        // '/home': (context) => (const HomeScreen()),
+        '/home': (context) => MainScreen(child: const HomeScreen()),
         '/login': (context) => const LoginScreen(),
         '/settings': (context) => SettingsScreen(),
         '/register': (context) => const RegisterScreen(),
@@ -305,12 +306,12 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: widget.child,
       bottomNavigationBar: Container(
-        color: Colors.indigo,
+        color: Colors.teal,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           child: GNav(
             gap: 8,
-            backgroundColor: Colors.indigo,
+            backgroundColor: Colors.teal,
             color: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: Colors.grey,

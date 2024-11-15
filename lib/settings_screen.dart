@@ -14,7 +14,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        backgroundColor: Colors.green[700],
+        backgroundColor: Colors.teal,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -78,15 +78,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       margin: const EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       color: Colors.green.shade50,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      child: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Row(
           children: [
             CircleAvatar(
               radius: 40,
-              backgroundImage: AssetImage('assets/user_avatar.jpg'),
+              backgroundImage: AssetImage('assets/img1.jpg'),
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -95,15 +95,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green[700],
+                    color: Colors.teal,
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 5),
                 Text(
                   'Bio: Traveler, Explorer, and Foodie',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.green[600],
+                    color: Colors.teal,
                   ),
                 ),
               ],
@@ -128,10 +128,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.green[700],
+                color: Colors.teal,
               ),
             ),
             const SizedBox(height: 10),
@@ -150,15 +150,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
-            color: Colors.green[600],
+            color: Colors.teal,
           ),
         ),
         Switch(
           value: currentValue,
           onChanged: onChanged,
-          activeColor: Colors.green[700],
+          activeColor: Colors.teal,
         ),
       ],
     );
@@ -179,17 +179,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onPressed: () {
                 // Implement logout functionality here
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Logging out...')),
+                  const SnackBar(content: Text('Logging out...')),
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[700],
-                padding: EdgeInsets.symmetric(vertical: 14),
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Log Out',
                 style: TextStyle(
                   fontSize: 18,

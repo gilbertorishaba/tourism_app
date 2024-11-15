@@ -31,16 +31,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double _textPosition = 0; // initial position of the text
-  bool _startAnimation = false; // start the animation
+  double _textPosition = 0;
+  bool _startAnimation = false;
 
   @override
   void initState() {
     super.initState();
-    // start the timer to trigger animation after 5 seconds
     Timer(const Duration(seconds: 5), () {
       setState(() {
-        _startAnimation = true; // enables me to start animation
+        _startAnimation = true;
       });
     });
   }
@@ -271,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: const Icon(Icons.favorite),
             title: const Text('Destinations'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/Destination');
+              Navigator.pushReplacementNamed(context, '/destination');
             },
           ),
           ListTile(
