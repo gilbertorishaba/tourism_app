@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart'; // Add carousel slider for smooth sliding effect
+import 'package:carousel_slider/carousel_slider.dart';
+import 'my_drawer_header.dart';
 
 class DestinationScreen extends StatefulWidget {
   const DestinationScreen({super.key});
@@ -165,6 +166,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
         title: const Text('Explore Destinations'),
         centerTitle: true,
       ),
+      drawer: const MyDrawerHeader(),
       body: Container(
         // banner
         decoration: const BoxDecoration(

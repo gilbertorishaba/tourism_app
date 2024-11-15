@@ -1,6 +1,7 @@
 // app_drawer.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tourism_app/app_localizations.dart';
 
 class MyDrawerHeader extends StatelessWidget {
   const MyDrawerHeader({super.key});
@@ -27,7 +28,7 @@ class MyDrawerHeader extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(CupertinoIcons.settings),
+            leading: const Icon(CupertinoIcons.home),
             title: const Text('Home'),
             onTap: () {
               Navigator.pushNamed(context, '/home');
@@ -41,12 +42,18 @@ class MyDrawerHeader extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.travel_explore),
-            title: const Text('Booking'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/booking');
-            },
-          ),
+              leading: const Icon(Icons.book_online),
+              title: Text(AppLocalizations.of(context)!.translate('booking')),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/booking',
+                  arguments: {
+                    'destinationTitle': 'Maldives',
+                    'price': '500 USD',
+                  },
+                );
+              }),
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Setting'),

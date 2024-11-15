@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tourism_app/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,12 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'LAITI Travel App',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: const HomeScreen(),
-    );
+        title: 'LAITI Travel App',
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        home: const HomeScreen(),
+        routes: {
+          '/settings': (context) => (SettingsScreen()),
+        });
   }
 }
 
@@ -30,16 +33,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double _textPosition = 0; //initial  if the text
-  bool _startAnimation = false; //start the animation
+  double _textPosition = 0; // initial position of the text
+  bool _startAnimation = false; // start the animation
 
   @override
   void initState() {
     super.initState();
-    //start the timer to trigger animation after 5 seconds
+    // start the timer to trigger animation after 5 seconds
     Timer(const Duration(seconds: 5), () {
       setState(() {
-        _startAnimation = true; //enables me to start animation
+        _startAnimation = true; // enables me to start animation
       });
     });
   }
@@ -49,16 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Discover Destinations'),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer(); // open Drawer
-              },
-            );
-          },
-        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -84,10 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              _buildAnimatedText(
-                  context), // Corrected placement for animated text
+              _buildAnimatedText(context),
               const SizedBox(height: 20),
-              _buildCentralHub(context), // Central hub for navigation
+              _buildCentralHub(context),
               const SizedBox(height: 20),
               _buildPopularCategories(context), // Quick access categories
               const SizedBox(height: 20),
@@ -108,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //handle animated text
+  // handle animated text
   Widget _buildAnimatedText(BuildContext context) {
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: MediaQuery.of(context).size.width, end: -200),
@@ -271,34 +263,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           ListTile(
-            leading: const Icon(CupertinoIcons.settings),
-            title: const Text('Settings'),
+            leading: const Icon(CupertinoIcons.home),
+            title: const Text('Home'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsScreen()));
+              Navigator.pushNamed(context, '/home');
             },
           ),
           ListTile(
             leading: const Icon(Icons.favorite),
-            title: const Text('Favorites'),
+            title: const Text('Destinations'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/favorites');
+              Navigator.pushReplacementNamed(context, '/Destination');
             },
           ),
           ListTile(
-            leading: const Icon(Icons.travel_explore),
-            title: const Text('Sites'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/sites');
-            },
-          ),
+              leading: const Icon(Icons.book_online),
+              title: Text(AppLocalizations.of(context)!.translate('booking')),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/booking',
+                  arguments: {
+                    'destinationTitle': 'Maldives',
+                    'price': '500 USD',
+                  },
+                );
+              }),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text('Home'),
+            title: const Text('Setting'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/settings');
             },
           ),
         ],
@@ -315,54 +310,200 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String? _selectedLanguage = 'English';
-  String? _selectedCurrency = 'USD';
+  bool _darkMode = false;
+  bool _notificationsEnabled = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: Colors.green[700],
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
-      body: ListView(
-        children: <Widget>[
-          ListTile(
-            title: const Text('Language'),
-            subtitle: DropdownButton<String>(
-              value: _selectedLanguage,
-              onChanged: (String? newValue) {
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            // Profile Section
+            _buildProfileSection(),
+
+            const SizedBox(height: 20),
+
+            // General Settings
+            _buildSettingsSection('General', [
+              _buildSettingItem('Notifications', _notificationsEnabled,
+                  (value) {
                 setState(() {
-                  _selectedLanguage = newValue;
+                  _notificationsEnabled = value!;
                 });
-              },
-              items: <String>['English', 'French', 'Spanish']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ),
-          ListTile(
-            title: const Text('Currency'),
-            subtitle: DropdownButton<String>(
-              value: _selectedCurrency,
-              onChanged: (String? newValue) {
+              }),
+              _buildSettingItem('Dark Mode', _darkMode, (value) {
                 setState(() {
-                  _selectedCurrency = newValue;
+                  _darkMode = value!;
                 });
-              },
-              items: <String>['USD', 'EUR', 'GBP']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+              }),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // Privacy Settings
+            _buildSettingsSection('Privacy', [
+              _buildSettingItem('Account Privacy', true, (value) {}),
+              _buildSettingItem('Location Sharing', true, (value) {}),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // Social Media Integration
+            _buildSettingsSection('Social Media', [
+              _buildSettingItem('Connect Instagram', true, (value) {}),
+              _buildSettingItem('Connect Facebook', true, (value) {}),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // Logout Section
+            _buildLogoutSection(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Profile section widget
+  Widget _buildProfileSection() {
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      color: Colors.green.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              radius: 40,
+              backgroundImage: AssetImage('assets/user_avatar.jpg'),
             ),
+            const SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'User Name',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[700],
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Bio: Traveler, Explorer, and Foodie',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.green[600],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // General Settings section widget
+  Widget _buildSettingsSection(String title, List<Widget> settings) {
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      color: Colors.green.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.green[700],
+              ),
+            ),
+            const SizedBox(height: 10),
+            ...settings,
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Setting item widget
+  Widget _buildSettingItem(
+      String title, bool currentValue, ValueChanged<bool?> onChanged) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.green[600],
           ),
-        ],
+        ),
+        Switch(
+          value: currentValue,
+          onChanged: onChanged,
+          activeColor: Colors.green[700],
+        ),
+      ],
+    );
+  }
+
+  // Logout section widget
+  Widget _buildLogoutSection() {
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      color: Colors.green.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Implement logout functionality here
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Logging out...')),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green[700],
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                'Log Out',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -370,7 +511,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 class DestinationSearchDelegate extends SearchDelegate {
   @override
-  List<Widget>? buildActions(BuildContext context) {
+  List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
         icon: const Icon(Icons.clear),
@@ -382,7 +523,7 @@ class DestinationSearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget? buildLeading(BuildContext context) {
+  Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
       onPressed: () {
@@ -393,24 +534,19 @@ class DestinationSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text('Search results for "$query"'),
+    return ListView(
+      children: [
+        ListTile(title: Text('Result for "$query"')),
+      ],
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ListView.builder(
-      itemCount: 10, //dummy suggestion list
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text('Destination $index'),
-          onTap: () {
-            query = 'Destination $index';
-            showResults(context);
-          },
-        );
-      },
+    return ListView(
+      children: [
+        ListTile(title: Text('Suggested: $query')),
+      ],
     );
   }
 }

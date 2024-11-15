@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For formatting dates
+import 'my_drawer_header.dart'; // Assuming this is where the drawer is defined
 
 class BookingScreen extends StatefulWidget {
   final String destinationTitle;
@@ -33,6 +34,11 @@ class _BookingScreenState extends State<BookingScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
+      ),
+      // Fix: The drawer should be correctly set to display the MyDrawerHeader widget
+      drawer: Drawer(
+        child:
+            MyDrawerHeader(), // Drawer should be wrapped inside a Drawer widget
       ),
       body: Stack(
         children: [

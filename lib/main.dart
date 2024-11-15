@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
-import 'my_drawer_header.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
 import 'destination_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'Onboarding/welcome.dart';
 import 'booking_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'register_screen.dart';
+import 'settings_screen.dart';
+import 'forgot_password_screen.dart';
 
 void main() {
   runApp(const TourismApp());
@@ -24,7 +27,6 @@ class TourismApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // Localization delegates & supported locales
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -32,22 +34,24 @@ class TourismApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en', 'US'), // English
-        Locale('es', 'ES'), // Spanish
-        Locale('fr', 'FR'), // French
-        Locale('de', 'DE'), // German
-        Locale('it', 'IT'), // Italian
-        Locale('ru', 'RU'), // Russian
-        Locale('zh', 'CN'), // Chinese
-        Locale('ja', 'JP'), // Japanese
-        Locale('ar', 'AE'), // Arabic
-        Locale('pt', 'PT'), // Portuguese
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('de', 'DE'),
+        Locale('it', 'IT'),
+        Locale('ru', 'RU'),
+        Locale('zh', 'CN'),
+        Locale('ja', 'JP'),
+        Locale('ar', 'AE'),
+        Locale('pt', 'PT'),
       ],
       initialRoute: '/onboarding',
       routes: {
-        '/onboarding': (context) => const OnboardingScreen(),
+        '/onboarding': (context) => (OnboardingScreen()),
         '/login': (context) => const LoginScreen(),
-        '/home': (context) => const MainScreen(child: HomeScreen()),
+        '/register': (context) => const RegisterScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/forgot_password': (context) => const ForgotPasswordScreen(),
         '/destination': (context) =>
             const MainScreen(child: DestinationScreen()),
         '/booking': (context) {
@@ -90,10 +94,10 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.pushNamed(context, '/destination');
         break;
       case 2:
-        Navigator.pushNamed(context, '/Search');
+        Navigator.pushNamed(context, '/settings');
         break;
       case 3:
-        Navigator.pushNamed(context, '/Booking');
+        Navigator.pushNamed(context, '/booking');
         break;
     }
   }
@@ -110,50 +114,6 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
       ),
       body: widget.child,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            MyDrawerHeader(),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: Text(AppLocalizations.of(context)!.translate('home')),
-              onTap: () {
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.favorite),
-              title:
-                  Text(AppLocalizations.of(context)!.translate('destinations')),
-              onTap: () {
-                Navigator.pushNamed(context, '/destination');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.book_online),
-              title: Text(AppLocalizations.of(context)!.translate('booking')),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/booking',
-                  arguments: {
-                    'destinationTitle': 'Maldives',
-                    'price': '500 USD',
-                  },
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(AppLocalizations.of(context)!.translate('settings')),
-              onTap: () {
-                Navigator.pushNamed(context, '/Settings');
-              },
-            ),
-          ],
-        ),
-      ),
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(
@@ -164,23 +124,23 @@ class _MainScreenState extends State<MainScreen> {
             color: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: Colors.grey,
-            onTabChange: _onTabChange,
-            padding: const EdgeInsets.all(16),
+            onTabChange: _onTabChange, // Keeps the navigation behavior intact
+            padding: const EdgeInsets.all(16), // Padding for the GNav buttons
             tabs: [
               GButton(
-                icon: Icons.home,
+                icon: CupertinoIcons.home,
                 text: AppLocalizations.of(context)!.translate('home'),
               ),
               GButton(
-                icon: Icons.favorite,
-                text: AppLocalizations.of(context)!.translate('destinations'),
+                icon: CupertinoIcons.heart,
+                text: AppLocalizations.of(context)!.translate(' destinations'),
               ),
               GButton(
-                icon: Icons.search,
-                text: AppLocalizations.of(context)!.translate('search'),
+                icon: CupertinoIcons.car,
+                text: AppLocalizations.of(context)!.translate('booking'),
               ),
               GButton(
-                icon: Icons.settings,
+                icon: CupertinoIcons.settings,
                 text: AppLocalizations.of(context)!.translate('settings'),
               ),
             ],
