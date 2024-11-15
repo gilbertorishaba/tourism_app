@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 20),
               _buildCentralHub(context),
               const SizedBox(height: 20),
-              _buildPopularCategories(context), // Quick access categories
+              _buildPopularCategories(context),
               const SizedBox(height: 20),
               const Text(
                 'Top Tourist Destinations',

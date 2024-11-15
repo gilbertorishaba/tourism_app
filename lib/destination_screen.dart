@@ -142,11 +142,10 @@ class _DestinationScreenState extends State<DestinationScreen> {
   @override
   void initState() {
     super.initState();
-    //Initial display all of destination
     filteredDestinations = destinations;
   }
 
-  //  Function to filter destinations-search query
+  //  Function to filter destinations
   void _filterDestinations(String query) {
     List<Map<String, dynamic>> filtered = destinations
         .where((destination) =>
@@ -198,7 +197,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
                   prefixIcon: const Icon(Icons.search),
                 ),
                 onChanged: (value) {
-                  // Update search query and filter destinations
                   setState(() {
                     searchQuery = value;
                   });
@@ -222,7 +220,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
 
                           return GestureDetector(
                             onTap: () {
-                              // Show dialog with more details
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -233,8 +230,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                       Image.asset(
                                         destination['image'],
                                         fit: BoxFit.cover,
-
-                                        // changed
                                         height: 100,
                                         width: double.infinity,
                                       ),
@@ -312,7 +307,8 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              // Implement booking logic
+                                              Navigator.pushNamed(
+                                                  context, '/bookings');
                                             },
                                             child: const Text('Book Now'),
                                           ),
@@ -326,8 +322,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                           );
                         },
                         options: CarouselOptions(
-                          height: MediaQuery.of(context).size.height *
-                              0.6, // Adjust carousel height
+                          height: MediaQuery.of(context).size.height * 0.6,
                           enlargeCenterPage: true,
                           autoPlay: true,
                           autoPlayInterval: const Duration(seconds: 5),

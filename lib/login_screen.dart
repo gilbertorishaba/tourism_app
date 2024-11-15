@@ -1,6 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en', 'US');
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      locale: _locale,
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('de', 'DE'),
+        Locale('it', 'IT'),
+        Locale('ru', 'RU'),
+        Locale('zh', 'CN'),
+        Locale('ja', 'JP'),
+        Locale('ar', 'AE'),
+        Locale('pt', 'PT'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      home: const LoginScreen(),
+    );
+  }
+}
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -10,8 +58,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String selectedLanguage = 'English';
-
-  // List of languages and their corresponding locales
   final Map<String, Locale> languageMap = {
     'English': const Locale('en', 'US'),
     'Spanish': const Locale('es', 'ES'),
@@ -25,13 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
     'Portuguese': const Locale('pt', 'PT'),
   };
 
-  // To change the app locale dynamically
   void _changeLanguage(String language) {
     setState(() {
       selectedLanguage = language;
     });
-    // Set the app locale
-    Locale locale = languageMap[language] ?? Locale('en', 'US');
+    Locale locale = languageMap[language] ?? const Locale('en', 'US');
     MyApp.of(context)?.setLocale(locale);
   }
 
@@ -65,7 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background.jpg'),
+            image:
+                AssetImage('assets/background.jpg'), // Ensure this asset exists
             fit: BoxFit.cover,
             opacity: 0.4,
           ),
@@ -78,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 50),
 
-                // Centered Language Selection
+                // Language Selection
                 Align(
                   alignment: Alignment.topCenter,
                   child: GestureDetector(
@@ -86,12 +131,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.language, color: Colors.black),
+                        const Icon(Icons.language, color: Colors.black),
                         const SizedBox(width: 10),
                         Text(
                           selectedLanguage,
                           style: const TextStyle(
-                              color: Colors.black, fontSize: 16),
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
                         ),
                       ],
                     ),
@@ -99,9 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 30),
 
-                // Logo
-                Image.asset('assets/logo.jpg', height: 100),
+                // App Logo
+                Image.asset('assets/logo.jpg',
+                    height: 100), // Ensure this asset exists
                 const SizedBox(height: 10),
+
                 const Text(
                   'Welcome to LAITI Tourism App',
                   textAlign: TextAlign.center,
@@ -126,17 +175,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                     image: const DecorationImage(
-                      image: AssetImage('assets/paris.jpg'),
+                      image: AssetImage(
+                          'assets/paris.jpg'), // Ensure this asset exists
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
+
                 const Text(
                   'Login to your account',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 15),
+
                 const TextField(
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -145,6 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
+
                 const TextField(
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -154,6 +207,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                 ),
                 const SizedBox(height: 20),
+
+                // Login Button
                 Center(
                   child: SizedBox(
                     width: double.infinity,
@@ -176,10 +231,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
+
+                // Forgot Password Button
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      // Forgot password logic
+                      // Handle forgot password logic
                     },
                     child: const Text(
                       'Forgot Password?',
@@ -187,6 +244,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
+
+                // Register Button
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, '/register'); // Assuming route is defined
+                    },
+                    child: const Text(
+                      'Don\'t have an account? Register',
+                      style: TextStyle(color: Colors.indigo),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
 
                 // Social Login Options
                 Center(
@@ -241,53 +315,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  static _MyAppState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_MyAppState>();
-  }
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Locale _locale = Locale('en', 'US'); // Default locale
-
-  void setLocale(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: _locale,
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('es', 'ES'),
-        Locale('fr', 'FR'),
-        Locale('de', 'DE'),
-        Locale('it', 'IT'),
-        Locale('ru', 'RU'),
-        Locale('zh', 'CN'),
-        Locale('ja', 'JP'),
-        Locale('ar', 'AE'),
-        Locale('pt', 'PT'),
-      ],
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      home: const LoginScreen(),
-    );
-  }
-}
-
-void main() {
-  runApp(const MyApp());
 }

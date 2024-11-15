@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // For formatting dates
-import 'my_drawer_header.dart'; // Assuming this is where the drawer is defined
+import 'package:intl/intl.dart';
+import 'my_drawer_header.dart';
 
 class BookingScreen extends StatefulWidget {
   final String destinationTitle;
@@ -35,10 +35,8 @@ class _BookingScreenState extends State<BookingScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      // Fix: The drawer should be correctly set to display the MyDrawerHeader widget
-      drawer: Drawer(
-        child:
-            MyDrawerHeader(), // Drawer should be wrapped inside a Drawer widget
+      drawer: const Drawer(
+        child: MyDrawerHeader(),
       ),
       body: Stack(
         children: [
@@ -101,13 +99,12 @@ class _BookingScreenState extends State<BookingScreen> {
                               color: Colors.green[900],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             widget.price,
                             style: TextStyle(
                               fontSize: 22,
-                              color:
-                                  Colors.green[600], // Lighter green for price
+                              color: Colors.green[600],
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -123,20 +120,20 @@ class _BookingScreenState extends State<BookingScreen> {
                       children: [
                         _buildTextField(
                             _nameController, 'Full Name', Icons.person),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         _buildTextField(
                             _emailController, 'Email Address', Icons.email),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         _buildTextField(
                             _phoneController, 'Phone Number', Icons.phone),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Date Picker
                         Text(
                           _selectedDate == null
                               ? 'Select Your Check-in Date'
                               : 'Check-in Date: ${DateFormat('yyyy-MM-dd').format(_selectedDate!)}',
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                         ElevatedButton(
                           onPressed: () async {
@@ -146,10 +143,11 @@ class _BookingScreenState extends State<BookingScreen> {
                               firstDate: DateTime(2020),
                               lastDate: DateTime(2025),
                             );
-                            if (picked != null && picked != _selectedDate)
+                            if (picked != null && picked != _selectedDate) {
                               setState(() {
                                 _selectedDate = picked;
                               });
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -157,7 +155,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           ),
                           child: const Text('Pick a Date'),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Terms and conditions checkbox
                         Row(
@@ -176,7 +174,7 @@ class _BookingScreenState extends State<BookingScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Book Now Button
                         ElevatedButton(
@@ -185,11 +183,12 @@ class _BookingScreenState extends State<BookingScreen> {
                                 _termsAccepted) {
                               // Handle booking logic here
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Booking Confirmed!')),
+                                const SnackBar(
+                                    content: Text('Booking Confirmed!')),
                               );
                             } else if (!_termsAccepted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                     content: Text(
                                         'You must accept the terms and conditions')),
                               );
@@ -197,14 +196,14 @@ class _BookingScreenState extends State<BookingScreen> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green[700],
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                          child: Text('Confirm Booking'),
+                          child: const Text('Confirm Booking'),
                         ),
                       ],
                     ),

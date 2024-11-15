@@ -1,4 +1,3 @@
-// app_drawer.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tourism_app/app_localizations.dart';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -100,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'Bio: Traveler, Explorer, and Foodie',
+                  'Name: Traveler',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.teal,

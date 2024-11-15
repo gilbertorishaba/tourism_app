@@ -52,12 +52,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-          // Overlay the content of the onboarding screens
           PageView(
             controller: _controller,
             onPageChanged: (index) {
               setState(() {
-                onLastPage = (index == 2); // Assuming 3 pages
+                onLastPage = (index == 2);
               });
             },
             children: [
@@ -69,7 +68,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   'Unlock access to exclusive deals tailored just for you.'),
             ],
           ),
-          // Modern progress bar at the bottom
           Positioned(
             bottom: 100,
             left: 20,
@@ -99,7 +97,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       textStyle: const TextStyle(fontSize: 16),
                     ),
                     onPressed: () {
-                      // Navigate to LoginScreen
                       Navigator.pushReplacementNamed(context, '/login');
                     },
                     child: const Text('Get Started'),
@@ -122,8 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ? const SizedBox.shrink()
                 : TextButton(
                     onPressed: () {
-                      _controller
-                          .jumpToPage(2); // to be able Skip to the last page
+                      _controller.jumpToPage(2);
                     },
                     child: const Text('Skip',
                         style: TextStyle(color: Colors.white)),
@@ -139,8 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(
-            height: 250), // Empty space for the image to show in the background
+        const SizedBox(height: 250),
         Text(
           title,
           style: const TextStyle(
