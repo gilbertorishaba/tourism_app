@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/logo.png',
+                      'assets/logo.jpg',
                       height: 80,
                     ),
                     const SizedBox(height: 20),
@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Please create an account to continue',
+                      'Dear traveller ❤️ create an account to continue',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white70,

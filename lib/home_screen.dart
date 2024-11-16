@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              _buildAnimatedText(context),
               const SizedBox(height: 20),
               _buildCentralHub(context),
               const SizedBox(height: 20),
@@ -98,205 +97,216 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // handle animated text
-  Widget _buildAnimatedText(BuildContext context) {
-    return TweenAnimationBuilder(
-      tween: Tween<double>(begin: MediaQuery.of(context).size.width, end: -200),
-      duration: const Duration(seconds: 5),
-      curve: Curves.linear,
-      builder: (context, value, child) {
-        return Container(
-          transform: Matrix4.translationValues(value, 0, 0),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.star, color: Colors.teal),
-              SizedBox(width: 8),
-              Text(
-                'Welcome to LAITI',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: 8),
-              Icon(Icons.star, color: Colors.teal),
-            ],
-          ),
-        );
-      },
-      onEnd: () {
-        setState(() {
-          _startAnimation = false;
-        });
-      },
-    );
-  }
-
-  Widget _buildCentralHub(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-          'Explore the World',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildIconButton(context, CupertinoIcons.airplane, 'Flights',
-                () => Navigator.pushNamed(context, '/flights')),
-            _buildIconButton(context, CupertinoIcons.bed_double_fill, 'Hotels',
-                () => Navigator.pushNamed(context, '/hotels')),
-            _buildIconButton(context, CupertinoIcons.location_fill, 'Explore',
-                () => Navigator.pushNamed(context, '/explore')),
+  Widget _buildCenteredText(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            vertical: 20), // Adds padding for better spacing
+        decoration: BoxDecoration(
+          color: Colors.teal.shade50, // Light teal background
+          borderRadius: BorderRadius.circular(15), // Rounded corners
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
           ],
         ),
-      ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.star,
+              color: Colors.teal,
+              size: 30, // Larger icon size
+            ),
+            SizedBox(width: 8), // Space between icon and text
+            Text(
+              'Welcome to LAITI',
+              style: TextStyle(
+                fontSize: 30, // Increased font size
+                fontWeight: FontWeight.bold,
+                color: Colors.teal.shade800, // Teal color for text
+                fontFamily: 'Roboto', // Optional: Set a modern font family
+              ),
+            ),
+            SizedBox(width: 8), // Space between text and icon
+            Icon(
+              Icons.star,
+              color: Colors.teal,
+              size: 30, // Larger icon size
+            ),
+          ],
+        ),
+      ),
     );
   }
+}
 
-  Widget _buildIconButton(BuildContext context, IconData icon, String label,
-      VoidCallback onPressed) {
-    return Column(
+Widget _buildCentralHub(BuildContext context) {
+  return Column(
+    children: [
+      const Text(
+        'Explore the World',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildIconButton(context, CupertinoIcons.airplane, 'Flights',
+              () => Navigator.pushNamed(context, '/flights')),
+          _buildIconButton(context, CupertinoIcons.bed_double_fill, 'Hotels',
+              () => Navigator.pushNamed(context, '/hotels')),
+          _buildIconButton(context, CupertinoIcons.location_fill, 'Explore',
+              () => Navigator.pushNamed(context, '/explore')),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget _buildIconButton(
+    BuildContext context, IconData icon, String label, VoidCallback onPressed) {
+  return Column(
+    children: [
+      IconButton(
+        icon: Icon(icon, size: 30),
+        onPressed: onPressed,
+      ),
+      Text(label),
+    ],
+  );
+}
+
+Widget _buildPopularCategories(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Popular Categories',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildCategoryButton(context, 'Beaches', CupertinoIcons.sun_max_fill),
+          _buildCategoryButton(
+              context, 'Mountains', CupertinoIcons.cloud_drizzle_fill),
+          _buildCategoryButton(
+              context, 'Cities', CupertinoIcons.building_2_fill),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget _buildCategoryButton(BuildContext context, String label, IconData icon) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.pushNamed(context, '/category', arguments: {'category': label});
+    },
+    child: Column(
       children: [
-        IconButton(
-          icon: Icon(icon, size: 30),
-          onPressed: onPressed,
+        CircleAvatar(
+          backgroundColor: Colors.teal,
+          radius: 30,
+          child: Icon(icon, color: Colors.white),
         ),
+        const SizedBox(height: 5),
         Text(label),
       ],
-    );
-  }
+    ),
+  );
+}
 
-  Widget _buildPopularCategories(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Popular Categories',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+Widget _buildDestinationCard(
+    BuildContext context, String title, String subtitle, String imagePath) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.pushNamed(context, '/destination',
+          arguments: {'title': title, 'image': imagePath});
+    },
+    child: Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+            child: Image.asset(imagePath,
+                fit: BoxFit.cover, height: 180, width: double.infinity),
+          ),
+          ListTile(
+            title: Text(title),
+            subtitle: Text(subtitle),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildDrawer(BuildContext context) {
+  return Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        const DrawerHeader(
+          decoration: BoxDecoration(color: Colors.teal),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage('assets/img4.jpg'),
+                radius: 30,
+              ),
+              SizedBox(height: 10),
+              Text('Welcome, Traveler!',
+                  style: TextStyle(color: Colors.white, fontSize: 18)),
+            ],
+          ),
         ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildCategoryButton(
-                context, 'Beaches', CupertinoIcons.sun_max_fill),
-            _buildCategoryButton(
-                context, 'Mountains', CupertinoIcons.cloud_drizzle_fill),
-            _buildCategoryButton(
-                context, 'Cities', CupertinoIcons.building_2_fill),
-          ],
+        ListTile(
+          leading: const Icon(CupertinoIcons.home),
+          title: const Text('Home'),
+          onTap: () {
+            Navigator.pushNamed(context, '/home');
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.favorite),
+          title: const Text('Destinations'),
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/destination');
+          },
+        ),
+        ListTile(
+            leading: const Icon(Icons.book_online),
+            title: Text(AppLocalizations.of(context)!.translate('booking')),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/booking',
+                arguments: {
+                  'destinationTitle': 'Maldives',
+                  'price': '500 USD',
+                },
+              );
+            }),
+        ListTile(
+          leading: const Icon(Icons.home),
+          title: const Text('Setting'),
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/settings');
+          },
         ),
       ],
-    );
-  }
-
-  Widget _buildCategoryButton(
-      BuildContext context, String label, IconData icon) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/category',
-            arguments: {'category': label});
-      },
-      child: Column(
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.teal,
-            radius: 30,
-            child: Icon(icon, color: Colors.white),
-          ),
-          const SizedBox(height: 5),
-          Text(label),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDestinationCard(
-      BuildContext context, String title, String subtitle, String imagePath) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/destination',
-            arguments: {'title': title, 'image': imagePath});
-      },
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(10)),
-              child: Image.asset(imagePath,
-                  fit: BoxFit.cover, height: 180, width: double.infinity),
-            ),
-            ListTile(
-              title: Text(title),
-              subtitle: Text(subtitle),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.teal),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/img4.jpg'),
-                  radius: 30,
-                ),
-                SizedBox(height: 10),
-                Text('Welcome, Traveler!',
-                    style: TextStyle(color: Colors.white, fontSize: 18)),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: const Icon(CupertinoIcons.home),
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.pushNamed(context, '/home');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Destinations'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/destination');
-            },
-          ),
-          ListTile(
-              leading: const Icon(Icons.book_online),
-              title: Text(AppLocalizations.of(context)!.translate('booking')),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/booking',
-                  arguments: {
-                    'destinationTitle': 'Maldives',
-                    'price': '500 USD',
-                  },
-                );
-              }),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Setting'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/settings');
-            },
-          ),
-        ],
-      ),
-    );
-  }
+    ),
+  );
 }
 
 class DestinationSearchDelegate extends SearchDelegate {

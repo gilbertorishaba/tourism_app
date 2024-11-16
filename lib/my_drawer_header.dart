@@ -21,7 +21,7 @@ class MyDrawerHeader extends StatelessWidget {
                   radius: 30,
                 ),
                 SizedBox(height: 10),
-                Text('Welcome, Traveler!',
+                Text('Welcome, Gilbert Orishaba!',
                     style: TextStyle(color: Colors.white, fontSize: 18)),
               ],
             ),

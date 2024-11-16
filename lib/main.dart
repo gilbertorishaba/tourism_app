@@ -22,49 +22,65 @@ class TourismApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'LAITI Tourism App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('es', 'ES'),
-        Locale('fr', 'FR'),
-        Locale('de', 'DE'),
-        Locale('it', 'IT'),
-        Locale('ru', 'RU'),
-        Locale('zh', 'CN'),
-        Locale('ja', 'JP'),
-        Locale('ar', 'AE'),
-        Locale('pt', 'PT'),
-      ],
-      initialRoute: '/onboarding',
-      routes: {
-        '/onboarding': (context) => (const OnboardingScreen()),
-        '/home': (context) => const MainScreen(child: HomeScreen()),
-        '/login': (context) => const LoginScreen(),
-        '/settings': (context) => const SettingsScreen(),
-        '/register': (context) => const RegisterScreen(),
-        '/forgot_password': (context) => const ForgotPasswordScreen(),
-        '/destination': (context) =>
-            const MainScreen(child: DestinationScreen()),
-        '/booking': (context) {
-          final Map<String, String> args =
-              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-          return BookingScreen(
-            destinationTitle: args['destinationTitle']!,
-            price: args['price']!,
-          );
-        },
-      },
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'LAITI Tourism App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('es', 'ES'),
+          Locale('fr', 'FR'),
+          Locale('de', 'DE'),
+          Locale('it', 'IT'),
+          Locale('ru', 'RU'),
+          Locale('zh', 'CN'),
+          Locale('ja', 'JP'),
+          Locale('ar', 'AE'),
+          Locale('pt', 'PT'),
+        ],
+        initialRoute: '/onboarding',
+        routes: {
+          '/onboarding': (context) => (const OnboardingScreen()),
+          '/home': (context) => const MainScreen(child: HomeScreen()),
+          '/login': (context) => const LoginScreen(),
+          '/settings': (context) => const SettingsScreen(),
+          '/register': (context) => const RegisterScreen(),
+          '/forgot_password': (context) => const ForgotPasswordScreen(),
+          '/destination': (context) =>
+              const MainScreen(child: DestinationScreen()),
+          '/booking': (context) {
+            // Fetching arguments passed when navigating to this route
+            final Map<String, String>? args = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, String>?;
+
+            // Extracting the arguments
+            final String destinationTitle =
+                args?['destinationTitle'] ?? 'Unknown Destination';
+            final String price = args?['price'] ?? 'Price not available';
+            final String imageUrl = args?['imageUrl'] ?? 'default_image_url';
+            final String description =
+                args?['description'] ?? 'No description available';
+            final String location =
+                args?['location'] ?? 'Location not available';
+
+            // Returning the BookingScreen widget with all required arguments
+            return BookingScreen(
+              destinationTitle: destinationTitle,
+              price: price,
+              imageUrl: imageUrl,
+              description: description,
+              location: location,
+            );
+          },
+        });
   }
 }
 
@@ -108,6 +124,8 @@ class _MainScreenState extends State<MainScreen> {
             builder: (context) => BookingScreen(
               destinationTitle: 'Beautiful Beach',
               price: '100 USD',
+              imageUrl: 'imageUrl', location: '',
+              description: '', // Placeholder value
             ),
           ),
         );

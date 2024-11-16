@@ -102,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'Name: Traveler',
+                  'Name: Susan Nasaka',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.teal,
