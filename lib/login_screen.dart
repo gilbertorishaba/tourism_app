@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      // Handle forgot password logic
+                      Navigator.pushNamed(context, '/forgot_password');
                     },
                     child: const Text(
                       'Forgot Password?',
@@ -250,8 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                          context, '/register'); // Assuming route is defined
+                      Navigator.pushNamed(context, '/register');
                     },
                     child: const Text(
                       'Don\'t have an account? Register',
@@ -317,7 +316,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Text(
-                            ' Designed and Handcrafted by Gilbert Orishaba & Susan Nasaka ',
+                            'Gilbert & Susan ',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,

@@ -31,7 +31,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
       title: 'Norwegian Islands',
       price: '\$1200',
       imageUrl: 'assets/img1.jpg',
-      description: 'jdjdj',
+      description: 'Beautiful Norwegian islands surrounded by the ocean.',
       location: 'Norway',
     ),
     Destination(
@@ -46,14 +46,15 @@ class _DestinationScreenState extends State<DestinationScreen> {
       title: 'Bali Beaches',
       price: '\$1500',
       imageUrl: 'assets/img3.jpg',
-      description: 'jjdj',
+      description: 'Relax at the serene beaches of Bali.',
       location: '',
     ),
     Destination(
       title: 'California Islands',
       price: '\$1800',
       imageUrl: 'assets/img4.jpg',
-      description: 'dhdh',
+      description:
+          'Relax at the serene beaches of California and be able to get an enjoyable moment .',
       location: 'California-USA',
     ),
     Destination(

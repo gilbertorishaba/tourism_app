@@ -61,7 +61,6 @@ class TourismApp extends StatelessWidget {
                 ?.settings
                 .arguments as Map<String, String>?;
 
-            // Extracting the arguments
             final String destinationTitle =
                 args?['destinationTitle'] ?? 'Unknown Destination';
             final String price = args?['price'] ?? 'Price not available';
@@ -71,7 +70,6 @@ class TourismApp extends StatelessWidget {
             final String location =
                 args?['location'] ?? 'Location not available';
 
-            // Returning the BookingScreen widget with all required arguments
             return BookingScreen(
               destinationTitle: destinationTitle,
               price: price,
@@ -124,8 +122,9 @@ class _MainScreenState extends State<MainScreen> {
             builder: (context) => BookingScreen(
               destinationTitle: 'Beautiful Beach',
               price: '100 USD',
-              imageUrl: 'imageUrl', location: '',
-              description: '', // Placeholder value
+              imageUrl: 'imageUrl',
+              location: '',
+              description: '',
             ),
           ),
         );

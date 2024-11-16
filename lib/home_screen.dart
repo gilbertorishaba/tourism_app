@@ -278,14 +278,14 @@ Widget _buildDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.favorite),
+          leading: const Icon(CupertinoIcons.square_favorites),
           title: const Text('Destinations'),
           onTap: () {
             Navigator.pushReplacementNamed(context, '/destination');
           },
         ),
         ListTile(
-            leading: const Icon(Icons.book_online),
+            leading: const Icon(CupertinoIcons.car),
             title: Text(AppLocalizations.of(context)!.translate('booking')),
             onTap: () {
               Navigator.pushNamed(
@@ -298,7 +298,7 @@ Widget _buildDrawer(BuildContext context) {
               );
             }),
         ListTile(
-          leading: const Icon(Icons.home),
+          leading: const Icon(CupertinoIcons.settings),
           title: const Text('Setting'),
           onTap: () {
             Navigator.pushReplacementNamed(context, '/settings');
