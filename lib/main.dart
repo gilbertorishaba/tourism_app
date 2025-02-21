@@ -241,78 +241,65 @@ class _TourismAppState extends State<TourismApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'LAITI Tourism App',
-      // Light theme remains as your original settings
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // Dark theme settings (will only be applied if the user triggers it)
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.black,
-        scaffoldBackgroundColor: Colors.black,
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.grey[900],
-          iconTheme: const IconThemeData(color: Colors.white),
+        debugShowCheckedModeBanner: false,
+        title: 'LAITI Tourism App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      ),
-      // Instead of following the system, use our _themeMode variable
-      themeMode: _themeMode,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('es', 'ES'),
-        Locale('fr', 'FR'),
-        Locale('de', 'DE'),
-        Locale('it', 'IT'),
-        Locale('ru', 'RU'),
-        Locale('zh', 'CN'),
-        Locale('ja', 'JP'),
-        Locale('ar', 'AE'),
-        Locale('pt', 'PT'),
-      ],
-      initialRoute: '/onboarding',
-      routes: {
-        '/onboarding': (context) => const OnboardingScreen(),
-        '/home': (context) => const MainScreen(child: HomeScreen()),
-        '/login': (context) => const LoginScreen(),
-        // Pass the callback and current theme mode to SettingsScreen
-        '/settings': (context) => SettingsScreen(
-              onThemeChanged: updateTheme,
-              currentThemeMode: _themeMode,
-            ),
-        '/register': (context) => const RegisterScreen(),
-        '/forgot_password': (context) => const ForgotPasswordScreen(),
-        '/destination': (context) =>
-            const MainScreen(child: DestinationScreen()),
-        '/booking': (context) {
-          final Map<String, String>? args = ModalRoute.of(context)
-              ?.settings
-              .arguments as Map<String, String>?;
-          final String destinationTitle =
-              args?['destinationTitle'] ?? 'Unknown Destination';
-          final String price = args?['price'] ?? 'Price not available';
-          final String imageUrl = args?['imageUrl'] ?? 'default_image_url';
-          final String description =
-              args?['description'] ?? 'No description available';
-          final String location = args?['location'] ?? 'Location not available';
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('es', 'ES'),
+          Locale('fr', 'FR'),
+          Locale('de', 'DE'),
+          Locale('it', 'IT'),
+          Locale('ru', 'RU'),
+          Locale('zh', 'CN'),
+          Locale('ja', 'JP'),
+          Locale('ar', 'AE'),
+          Locale('pt', 'PT'),
+        ],
+        initialRoute: '/onboarding',
+        routes: {
+          '/onboarding': (context) => (const OnboardingScreen()),
+          '/home': (context) => const MainScreen(child: HomeScreen()),
+          '/login': (context) => const LoginScreen(),
+          '/settings': (context) => const SettingsScreen(),
+          '/register': (context) => const RegisterScreen(),
+          '/forgot_password': (context) => const ForgotPasswordScreen(),
+          '/destination': (context) =>
+              const MainScreen(child: DestinationScreen()),
+          '/booking': (context) {
+            // Fetching arguments passed when navigating to this route
+            final Map<String, String>? args = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, String>?;
 
-          return BookingScreen(
-            destinationTitle: destinationTitle,
-            price: price,
-            imageUrl: imageUrl,
-            description: description,
-            location: location,
-          );
-        },
-      },
-    );
+            // Extracting the arguments
+            final String destinationTitle =
+                args?['destinationTitle'] ?? 'Unknown Destination';
+            final String price = args?['price'] ?? 'Price not available';
+            final String imageUrl = args?['imageUrl'] ?? 'default_image_url';
+            final String description =
+                args?['description'] ?? 'No description available';
+            final String location =
+                args?['location'] ?? 'Location not available';
+
+            // Returning the BookingScreen widget with all required arguments
+            return BookingScreen(
+              destinationTitle: destinationTitle,
+              price: price,
+              imageUrl: imageUrl,
+              description: description,
+              location: location,
+            );
+          },
+        });
   }
 }
 
