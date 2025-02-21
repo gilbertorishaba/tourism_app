@@ -17,6 +17,32 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   google_nav_bar: ^5.0.6
+  sqflite: ^2.2.0+1
+  # path_provider: ^2.0.14
+  # dark model
+  provider: 6.1.2
+  # API
+  http: ^1.1.1
+  # img picker
+  image_picker: ^1.0.0
+  # file uploading and downloading
+  dio: ^5.0.0
+  # data persistence
+  shared_preferences: ^2.1.1
+  # Ai & voice search
+  speech_to_text: ^6.0.2
+  # attractive onboading screen
+  intro_slider: ^3.0.0
+  # registation & login
+  # firebase_core: ^2.16.0
+  # firebase_auth: ^4.8.0
+  # cloud_firestore: ^4.12.0
+  # data encryption and hashing tech
+  encrypt: ^5.0.1
+  # offline performance 
+  # hive: ^2.2.3
+  # hive_flutter: ^1.1.1
+  flutter_zoom_drawer: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -55,4 +81,5 @@ fonts:
     fonts:
       - asset: assets/fonts/NotoSans-Regular.ttf
       - asset: assets/fonts/NotoSans-Bold.ttf
-        weight: 700
+        weight: 700 
+
