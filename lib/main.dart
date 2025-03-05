@@ -27,7 +27,7 @@ class TourismApp extends StatefulWidget {
 }
 
 class _TourismAppState extends State<TourismApp> {
-  ThemeMode _themeMode = ThemeMode.light; // Default to light theme
+  ThemeMode _themeMode = ThemeMode.light;
 
   // Callback to update the app's theme
   void updateTheme(ThemeMode newThemeMode) {
@@ -75,13 +75,12 @@ class _TourismAppState extends State<TourismApp> {
         Locale('ar', 'AE'),
         Locale('pt', 'PT'),
       ],
-      initialRoute: '/onboarding',
+      initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/onboarding': (context) => const onboarding.OnboardingScreen(),
-        '/home': (context) => MainScreen(child: const HomeScreen()),
+        '/home': (context) => const MainScreen(child: HomeScreen()),
         '/login': (context) => const LoginScreen(),
-        // Updated SettingsScreen route: passing required parameters.
         '/settings': (context) => SettingsScreen(
               onThemeChanged: updateTheme,
               currentThemeMode: _themeMode,
@@ -89,9 +88,8 @@ class _TourismAppState extends State<TourismApp> {
         '/register': (context) => const RegisterScreen(),
         '/forgot_password': (context) => const ForgotPasswordScreen(),
         '/destination': (context) =>
-            MainScreen(child: const DestinationScreen()),
+            const MainScreen(child: DestinationScreen()),
         '/booking': (context) {
-          // Fetching arguments passed when navigating to this route
           final Map<String, String>? args = ModalRoute.of(context)
               ?.settings
               .arguments as Map<String, String>?;

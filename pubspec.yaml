@@ -59,9 +59,9 @@ flutter:
     - assets/img15.jpg
     - assets/img16.jpg
     - assets/logo.jpg
-    - assets/tourism-4.png
     - assets/background.jpg
     - assets/config/login_screen_config.json
+    - assets/logo.png
     - assets/lang/en.json
 
 uses-material-design: true

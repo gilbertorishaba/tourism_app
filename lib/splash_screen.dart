@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'onboarding/welcome.dart'; // Import the onboarding screen here
+import 'onboarding/welcome.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-// Main app widget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -17,12 +17,28 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('de', 'DE'),
+        Locale('it', 'IT'),
+        Locale('ru', 'RU'),
+        Locale('zh', 'CN'),
+        Locale('ja', 'JP'),
+        Locale('ar', 'AE'),
+        Locale('pt', 'PT'),
+      ],
       home: const SplashScreen(),
     );
   }
 }
 
-// Splash screen widget
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -34,16 +50,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Debugging statement to confirm Splash Screen is loaded
     print("Splash screen loaded");
-
-    // Delay for 3 seconds before navigating to onboarding screen
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const OnboardingScreen()), // Reference to OnboardingScreen from welcome.dart
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
       );
     });
   }
@@ -52,12 +63,36 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Image.asset(
-          'assets/tourism-4.png',
-          width: 150,
-          height: 150,
-        ),
+      body: Stack(
+        children: [
+          Center(
+            child: Image.asset(
+              'assets/logo.png',
+              width: 150,
+              height: 150,
+              errorBuilder: (context, error, stackTrace) {
+                print("Error loading image: $error");
+                return const Text(
+                  'Error loading image',
+                  style: TextStyle(color: Colors.white),
+                );
+              },
+            ),
+          ),
+          const Positioned(
+            bottom: 20.0,
+            left: 0,
+            right: 0,
+            child: Text(
+              'Developed by Gilbert',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.0,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
