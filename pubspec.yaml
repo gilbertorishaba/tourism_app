@@ -11,37 +11,25 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  image_picker: ^0.8.7+3
   carousel_slider: ^5.0.0
   smooth_page_indicator: ^1.2.0+3
-  intl: ^0.19.0
+  intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
   google_nav_bar: ^5.0.6
   sqflite: ^2.2.0+1
-  # path_provider: ^2.0.14
-  # dark model
-  provider: 6.1.2
-  # API
+  provider: ^6.1.2
   http: ^1.1.1
-  # img picker
-  image_picker: ^1.0.0
-  # file uploading and downloading
   dio: ^5.0.0
-  # data persistence
   shared_preferences: ^2.1.1
-  # Ai & voice search
   speech_to_text: ^6.0.2
-  # attractive onboading screen
   intro_slider: ^3.0.0
-  # registation & login
-  # firebase_core: ^2.16.0
-  # firebase_auth: ^4.8.0
-  # cloud_firestore: ^4.12.0
-  # data encryption and hashing tech
+  # firebase_core: ^1.10.0
+  # firebase_auth: ^3.4.1
+  # firebase_auth_web: ^3.3.0
+  # js: ^0.6.3
   encrypt: ^5.0.1
-  # offline performance 
-  # hive: ^2.2.3
-  # hive_flutter: ^1.1.1
   flutter_zoom_drawer: ^3.0.1
 
 dev_dependencies:
@@ -71,8 +59,10 @@ flutter:
     - assets/img15.jpg
     - assets/img16.jpg
     - assets/logo.jpg
+    - assets/tourism-4.png
     - assets/background.jpg
     - assets/config/login_screen_config.json
+    - assets/lang/en.json
 
 uses-material-design: true
 
@@ -81,5 +71,8 @@ fonts:
     fonts:
       - asset: assets/fonts/NotoSans-Regular.ttf
       - asset: assets/fonts/NotoSans-Bold.ttf
-        weight: 700 
+        weight: 700
+
+dependency_overrides:
+  intl: ^0.19.0
 

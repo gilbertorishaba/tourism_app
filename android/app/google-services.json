@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "715478539305",
+    "project_id": "laiti-tourism-app",
+    "storage_bucket": "laiti-tourism-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715478539305:android:b10d5886a2dfe055091038",
+        "android_client_info": {
+          "package_name": "com.example.tourism_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM7HZEXokPRAfyhtJQeADHIEnBlvOcCIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
