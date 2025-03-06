@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.8  # For Cupertino Icons
   image_picker: ^0.8.7+3
   carousel_slider: ^5.0.0
   smooth_page_indicator: ^1.2.0+3
@@ -38,6 +38,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
+  uses-material-design: true  # Enables material icons
   assets:
     - assets/london.jpg
     - assets/paris.jpg
@@ -64,8 +65,6 @@ flutter:
     - assets/logo.png
     - assets/lang/en.json
 
-uses-material-design: true
-
 fonts:
   - family: NotoSans
     fonts:
@@ -75,4 +74,3 @@ fonts:
 
 dependency_overrides:
   intl: ^0.19.0
-

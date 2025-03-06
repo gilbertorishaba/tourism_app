@@ -23,10 +23,10 @@ class ProfileDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
-          children: const [
+          children: [
             CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage('assets/img1.jpg'), // user image
@@ -34,7 +34,8 @@ class ProfileDetailsScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text('First Name: Susan', style: TextStyle(fontSize: 18)),
             Text('Last Name: Nasaka', style: TextStyle(fontSize: 18)),
-            Text('Email: susan@example.com', style: TextStyle(fontSize: 18)),
+            Text('Email: susannasaka@gmail.com',
+                style: TextStyle(fontSize: 18)),
           ],
         ),
       ),
@@ -85,7 +86,10 @@ class _SecurityScreenState extends State<SecurityScreen> {
           // Change password
           ListTile(
             title: const Text('Change Password'),
-            trailing: const Icon(Icons.arrow_forward_ios),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
             onTap: () => _showChangePasswordDialog(context),
           ),
         ],
