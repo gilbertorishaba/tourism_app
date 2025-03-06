@@ -372,18 +372,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState?.validate() ?? false) {
+                                  if (_formKey.currentState?.validate() ??
+                                      false) {
                                     // Insert user into SQLite
                                     registerUser();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Successfully registered'),
+                                        content:
+                                            Text('Successfully registered'),
                                       ),
                                     );
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -391,7 +394,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 child: const Text(
                                   'Register',
-                                  style: TextStyle(fontSize: 18, color: Colors.white),
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
                                 ),
                               ),
                             ),

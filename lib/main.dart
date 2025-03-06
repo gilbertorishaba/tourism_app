@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tourism_app/forgot_password_screen.dart';
 import 'package:tourism_app/my_drawer_header.dart';
+import 'package:tourism_app/settings_screen.dart';
 import 'package:tourism_app/splash_screen.dart';
 
 import 'app_localizations.dart';
@@ -12,8 +14,6 @@ import 'Onboarding/welcome.dart' as onboarding;
 import 'booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'register_screen.dart';
-import 'forgot_password_screen.dart';
-import 'settings_screen.dart';
 
 void main() {
   runApp(const TourismApp());
