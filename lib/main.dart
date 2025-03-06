@@ -4,7 +4,7 @@ import 'package:tourism_app/forgot_password_screen.dart';
 import 'package:tourism_app/my_drawer_header.dart';
 import 'package:tourism_app/settings_screen.dart';
 import 'package:tourism_app/splash_screen.dart';
-
+import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 import 'app_localizations.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
@@ -15,7 +15,29 @@ import 'booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'register_screen.dart';
 
-void main() {
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  'apiKey': 'AIzaSyAWmIdIhsI1LW1zf5uLpVdjeuQG5dfZF0c',
+  'authDomain': 'laiti-6e0f1.firebaseapp.com',
+  'projectId': 'laiti-6e0f1',
+  'storageBucket': 'laiti-6e0f1.firebasestorage.app',
+  'messagingSenderId': '560767341852',
+  'appId': '1:560767341852:web:0a4cd49ffcd6976a1a56d9',
+  'measurementId': 'G-PLED0Q9VFZ',
+};
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: firebaseConfig['apiKey'] ?? '', // Provide fallback value for null
+      authDomain: firebaseConfig['authDomain'] ?? '',
+      projectId: firebaseConfig['projectId'] ?? '',
+      storageBucket: firebaseConfig['storageBucket'] ?? '',
+      messagingSenderId: firebaseConfig['messagingSenderId'] ?? '',
+      appId: firebaseConfig['appId'] ?? '',
+      measurementId: firebaseConfig['measurementId'] ?? '',
+    ),
+  );
   runApp(const TourismApp());
 }
 
@@ -41,11 +63,9 @@ class _TourismAppState extends State<TourismApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'LAITI Tourism App',
-      // Light theme remains as your original settings
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // Dark theme settings (will only be applied if the user triggers it)
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.black,
@@ -55,7 +75,6 @@ class _TourismAppState extends State<TourismApp> {
           iconTheme: const IconThemeData(color: Colors.white),
         ),
       ),
-      // Instead of following the system, use our _themeMode variable
       themeMode: _themeMode,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -94,7 +113,6 @@ class _TourismAppState extends State<TourismApp> {
               ?.settings
               .arguments as Map<String, String>?;
 
-          // Extracting the arguments
           final String destinationTitle =
               args?['destinationTitle'] ?? 'Unknown Destination';
           final String price = args?['price'] ?? 'Price not available';
@@ -103,7 +121,6 @@ class _TourismAppState extends State<TourismApp> {
               args?['description'] ?? 'No description available';
           final String location = args?['location'] ?? 'Location not available';
 
-          // Returning the BookingScreen widget with all required arguments
           return BookingScreen(
             destinationTitle: destinationTitle,
             price: price,

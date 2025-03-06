@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tourism_app/services/auth_services.dart'; // Import AuthService
 
 void main() {
   runApp(const MyApp());
@@ -71,6 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
     'Portuguese': const Locale('pt', 'PT'),
   };
 
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false; // To show loading indicator
+
   void _changeLanguage(String language) {
     setState(() {
       selectedLanguage = language;
@@ -101,6 +106,29 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     );
+  }
+
+  Future<void> _login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Use AuthService for sign-in
+      await AuthService().signIn(email, password);
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login failed. Please try again.')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -189,8 +217,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 15),
 
-                const TextField(
-                  decoration: InputDecoration(
+                // Email Input
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email),
@@ -198,8 +228,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 15),
 
-                const TextField(
-                  decoration: InputDecoration(
+                // Password Input
+                TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock),
@@ -213,9 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/home');
-                      },
+                      onPressed: _isLoading ? null : _login,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -223,10 +253,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         backgroundColor: Colors.indigo,
                       ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Login',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
+                            ),
                     ),
                   ),
                 ),
@@ -294,7 +327,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             icon: const Icon(Icons.g_mobiledata),
                             label: const Text('Google'),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red[700],
+                              backgroundColor: Colors.red[600],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -304,35 +337,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      // Copyright Section
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '© ',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            'Gilbert & Susan ',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueAccent,
-                            ),
-                          ),
-                          Text(
-                            '2024',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
