@@ -1,0 +1,14 @@
+platform :ios, '10.0'
+
+# CocoaPods analytics
+install! 'cocoapods', :disable_input_output_paths => true
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  # Pods for Runner
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Auth'
+end

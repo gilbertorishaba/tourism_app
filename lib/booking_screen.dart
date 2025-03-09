@@ -1,29 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'my_drawer_header.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Terms and Conditions Screen for LAITI style
+// Terms and Conditions
 class TermsScreen extends StatelessWidget {
   const TermsScreen({super.key});
 
   final String termsText = '''
 1. Acceptance of Terms
-By accessing or using our app ("LAITI"), you agree to be bound by these Terms and Conditions. If you disagree with any part of these terms, please do not use our service.
+By accessing or using our Laiti, you agree to be bound by these Terms and Conditions. If you disagree with any part of these terms, please do not use our service.
 
 2. Description of Service
 LAITI provides an online marketplace that connects travelers with hosts offering unique accommodations and experiences. Our platform facilitates bookings, payments, and communications between users.
 
 3. User Eligibility
-You must be at least 18 years old and legally capable of entering into a contract to use our services. By using LAITI, you represent and warrant that you meet these requirements.
+You must be at least 18 years old and legally capable of entering into a contract to use our services. By using Laiti, you represent and warrant that you meet these requirements.
 
 4. Account Registration and Security
 Registration: Users must provide accurate personal details during account registration.
 Security: You are responsible for maintaining the confidentiality of your account login information. Any unauthorized use of your account should be reported immediately.
 
 5. Booking and Payment
-Booking Process: All bookings made via LAITI are subject to availability and confirmation by the host.
+Booking Process: All bookings made via Laiti are subject to availability and confirmation by the host.
 Payments: Payments are processed securely through our payment gateway. Full payment is generally required at the time of booking.
 Cancellation and Refunds: Cancellation policies vary by listing. Please review the host's cancellation policy before confirming your booking. In cases where refunds are applicable, they will be processed according to the specified policy.
 
@@ -38,7 +40,7 @@ Users may provide reviews and ratings based on their experience. These reviews a
 Your privacy is important to us. Please refer to our Privacy Policy for details on how we collect, use, and safeguard your personal information.
 
 9. Intellectual Property
-All content, trademarks, and data on LAITI are the property of their respective owners. Unauthorized use of any content may violate intellectual property laws.
+All content, trademarks, and data on Laiti are the property of their respective owners. Unauthorized use of any content may violate intellectual property laws.
 
 10. Limitation of Liability
 LAITI acts solely as an intermediary between guests and hosts. We are not responsible for the quality, safety, or legality of any listing or experience. In no event shall TourismX be liable for any indirect, incidental, or consequential damages arising from the use of our services.
@@ -77,7 +79,7 @@ For any questions regarding these Terms and Conditions, please contact our suppo
               ),
             ),
             const SizedBox(height: 20),
-            // Agree/Disagree buttons
+            // Agree and Disagree buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -108,13 +110,13 @@ For any questions regarding these Terms and Conditions, please contact our suppo
   }
 }
 
-// BookingScreen with merged features and added location parameter
+// BookingScreen with added location parameter
 class BookingScreen extends StatefulWidget {
   final String destinationTitle;
   final String description;
   final String price;
-  final String imageUrl; // Booking info image for carousel/details
-  final String location; // Added location parameter
+  final String imageUrl;
+  final String location;
 
   const BookingScreen({
     required this.destinationTitle,
@@ -138,7 +140,7 @@ class _BookingScreenState extends State<BookingScreen> {
   bool _termsAccepted = false;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
-  File? _selectedUserImage; // only for user's image
+  File? _selectedUserImage; //users image
   final ImagePicker _picker = ImagePicker();
   final PageController _pageController = PageController();
 
@@ -161,7 +163,6 @@ class _BookingScreenState extends State<BookingScreen> {
           radius: 80,
           backgroundImage: _selectedUserImage != null
               ? FileImage(_selectedUserImage!)
-              // Use a placeholder asset for user's image
               : const AssetImage('assets/user_placeholder.png')
                   as ImageProvider,
         ),
@@ -208,7 +209,6 @@ class _BookingScreenState extends State<BookingScreen> {
               context: context,
               initialDate: DateTime.now(),
               firstDate: DateTime(2020),
-              // Updated lastDate to December 31, 2025 to avoid assertion errors
               lastDate: DateTime(2025, 12, 31),
               builder: (BuildContext context, Widget? child) {
                 return Theme(
@@ -320,6 +320,35 @@ class _BookingScreenState extends State<BookingScreen> {
     } else {
       // If disagreed or canceled, pop the booking screen
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> submitBooking() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        await FirebaseFirestore.instance.collection('bookings').add({
+          'uid': user.uid, // Store the user ID along with the booking
+          'name': _nameController.text,
+          'email': _emailController.text,
+          'phone': _phoneController.text,
+          'checkInDate': _selectedDate?.toIso8601String(),
+          'checkInTime':
+              _selectedTime != null ? _selectedTime!.format(context) : null,
+          'destination': widget.destinationTitle,
+          'price': widget.price,
+          'location': widget.location,
+          'userImage':
+              _selectedUserImage != null ? _selectedUserImage!.path : null,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+      } catch (e) {
+        throw Exception('Booking submission failed: $e');
+      }
+    } else {
+      // Handle case when user is not logged in
+      print('User not logged in');
     }
   }
 
@@ -438,12 +467,22 @@ class _BookingScreenState extends State<BookingScreen> {
                     const SizedBox(height: 20),
                     // Confirm Booking Button (requires terms acceptance)
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate() &&
                             _termsAccepted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Booking Confirmed!')),
-                          );
+                          try {
+                            await submitBooking();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Hello ${_nameController.text}, your application has been successfully submitted. Sit back, relax and wait for the confirmation!'),
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error: ${e.toString()}')),
+                            );
+                          }
                         } else if (!_termsAccepted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
