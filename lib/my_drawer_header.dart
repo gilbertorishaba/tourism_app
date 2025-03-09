@@ -60,6 +60,13 @@ class MyDrawerHeader extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/settings');
             },
           ),
+          ListTile(
+            leading: const Icon(CupertinoIcons.person_2),
+            title: const Text('Chat With Us'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/tawk_chat');
+            },
+          ),
         ],
       ),
     );

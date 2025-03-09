@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:tourism_app/services/auth_services.dart'; // Import AuthService
+import 'package:tourism_app/services/auth_services.dart'; 
 
 void main() {
   runApp(const MyApp());

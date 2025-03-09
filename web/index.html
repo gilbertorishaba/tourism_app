@@ -25,22 +25,45 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="tourism_app">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-  <!-- Add Firebase SDK -->
+  <!--Firebase SDK --> 
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js"></script>
 
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <!-- Polyfill for ES6 features (e.g., Promises) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/3.6.5/minified.js"></script>
 
   <title>tourism_app</title>
   <link rel="manifest" href="manifest.json">
 </head>
+<style>
+  .tawk-text-container .tawk-message-body { 
+    display: none !important;
+  }
+</style>
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <!--Start of Tawk.to Script-->
+  <script src="flutter_bootstrap.js" async></script>
+  <!-- Start of Tawk.to Script -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function(){
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/67cd3a9a23aff01909e97867/1ilsqpsfe';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+
+    // This will inject the CSS dynamically after the Tawk.to widget has loaded
+    Tawk_API.onLoad = function() {
+      var style = document.createElement('style');
+      style.innerHTML = '.tawk-text-container .tawk-message-body { display: none !important; }';
+      document.head.appendChild(style);
+    };
+  </script>
+  <!-- End of Tawk.to Script -->
 </body>
 </html>

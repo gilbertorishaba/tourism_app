@@ -5,7 +5,7 @@ import 'package:tourism_app/forgot_password_screen.dart';
 import 'package:tourism_app/my_drawer_header.dart';
 import 'package:tourism_app/settings_screen.dart';
 import 'package:tourism_app/splash_screen.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+import 'package:firebase_core/firebase_core.dart';
 import 'app_localizations.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
@@ -15,8 +15,9 @@ import 'Onboarding/welcome.dart' as onboarding;
 import 'booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'register_screen.dart';
+import 'services/tawk_chat_screen.dart';
 
-// Your web app's Firebase configuration
+// web fbase config
 const firebaseConfig = {
   'apiKey': 'AIzaSyAWmIdIhsI1LW1zf5uLpVdjeuQG5dfZF0c',
   'authDomain': 'laiti-6e0f1.firebaseapp.com',
@@ -30,7 +31,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: firebaseConfig['apiKey'] ?? '', // Provide fallback value for null
+      apiKey: firebaseConfig['apiKey'] ?? '',
       authDomain: firebaseConfig['authDomain'] ?? '',
       projectId: firebaseConfig['projectId'] ?? '',
       storageBucket: firebaseConfig['storageBucket'] ?? '',
@@ -109,6 +110,7 @@ class _TourismAppState extends State<TourismApp> {
               currentThemeMode: _themeMode,
             ),
         '/register': (context) => const RegisterScreen(),
+        '/tawk_chat': (context) => const TawkChatScreen(),
         '/forgot_password': (context) => const ForgotPasswordScreen(),
         '/destination': (context) =>
             const MainScreen(child: DestinationScreen()),
@@ -166,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => BookingScreen(
+            builder: (context) => const BookingScreen(
               destinationTitle: 'Beautiful Beach',
               price: '100 USD',
               imageUrl: 'imageUrl',
@@ -178,6 +180,9 @@ class _MainScreenState extends State<MainScreen> {
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/settings');
+        break;
+      case 4:
+        Navigator.pushReplacementNamed(context, '/tawk_chat');
         break;
     }
   }
