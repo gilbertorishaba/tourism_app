@@ -16,6 +16,7 @@ import 'booking_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'register_screen.dart';
 import 'services/tawk_chat_screen.dart';
+//import 'package:tourism_app/screens/token_display_screen.dart';
 
 // web fbase config
 const firebaseConfig = {
@@ -104,6 +105,7 @@ class _TourismAppState extends State<TourismApp> {
         '/splash': (context) => const SplashScreen(),
         '/onboarding': (context) => const onboarding.OnboardingScreen(),
         '/home': (context) => const MainScreen(child: HomeScreen()),
+        // '/token_display': (context) => const TokenDisplayScreen(),
         '/login': (context) => const LoginScreen(),
         '/settings': (context) => SettingsScreen(
               onThemeChanged: updateTheme,

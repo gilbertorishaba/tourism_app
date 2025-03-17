@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'my_drawer_header.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 // Terms and Conditions
 class TermsScreen extends StatelessWidget {
@@ -69,7 +70,6 @@ For any questions regarding these Terms and Conditions, please contact our suppo
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Scrollable terms text
             Expanded(
               child: SingleChildScrollView(
                 child: Text(
@@ -87,9 +87,8 @@ For any questions regarding these Terms and Conditions, please contact our suppo
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green[700],
-                  ),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
                   child: const Text('Agree'),
                 ),
                 ElevatedButton(
@@ -110,7 +109,7 @@ For any questions regarding these Terms and Conditions, please contact our suppo
   }
 }
 
-// BookingScreen with added location parameter
+// BookingScreen and location parameter
 class BookingScreen extends StatefulWidget {
   final String destinationTitle;
   final String description;
@@ -140,9 +139,33 @@ class _BookingScreenState extends State<BookingScreen> {
   bool _termsAccepted = false;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
-  File? _selectedUserImage; //users image
+  File? _selectedUserImage;
   final ImagePicker _picker = ImagePicker();
   final PageController _pageController = PageController();
+
+  // Integration: Fetch Bookings Function
+  Future<void> _fetchBookings() async {
+    try {
+      String? token = await FirebaseAuth.instance.currentUser!.getIdToken();
+      final response = await http.get(
+        Uri.parse('http://localhost:8080/bookings'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        // Handle success
+        print('Bookings: ${response.body}');
+      } else {
+        // Handle error
+        print('Error fetching bookings: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception in fetching bookings: $e');
+    }
+  }
+  // ------------------------------------------------------------------------
 
   // Pick user image from gallery
   Future<void> _pickUserImage() async {
@@ -154,7 +177,6 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
-  // Build circular avatar for user image with camera icon overlay
   Widget _buildUserImage() {
     return Stack(
       alignment: Alignment.center,
@@ -365,6 +387,12 @@ class _BookingScreenState extends State<BookingScreen> {
         ),
       ),
       drawer: const Drawer(child: MyDrawerHeader()),
+      // Added FloatingActionButton to trigger fetch bookings for demonstration
+      floatingActionButton: FloatingActionButton(
+        onPressed: _fetchBookings,
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.refresh),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

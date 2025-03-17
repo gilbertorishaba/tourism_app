@@ -19,42 +19,44 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  // Page controller for the 3-step pages
+  // P.controller for the 3 step pages
   final PageController _pageController = PageController();
 
-  // Track current page (0,1,2)
+  //tracking the current page ie 1,2,3
   int currentPage = 0;
 
   //selecting
   int? _selectedInterest;
   int? _selectedDestinationIndex;
 
-  // For the plan selection (Page 3)
+  // Plan selection
   int? _selectedPlan;
   int? _selectedBasicFeature;
   int? _selectedPremiumFeature;
 
-  // Background images for the animated switch
+  //background images for animated screen
   final List<String> backgroundImages = [
     'assets/img1.jpg',
     'assets/img2.jpg',
     'assets/img3.jpg'
   ];
 
-  // Destination options for the grid (12 items in total)
+  //Destination items for the grid
   final List<DestinationOption> _destinationOptions = [
     DestinationOption(label: 'Paris', imagePath: 'assets/paris.jpg'),
     DestinationOption(label: 'New York', imagePath: 'assets/newyork.jpg'),
     DestinationOption(label: 'London', imagePath: 'assets/london.jpg'),
-    DestinationOption(label: 'Tokyo', imagePath: 'assets/tokyo.jpg'),
-    DestinationOption(label: 'Sydney', imagePath: 'assets/sydney.jpg'),
-    DestinationOption(label: 'Rome', imagePath: 'assets/rome.jpg'),
-    DestinationOption(label: 'Cairo', imagePath: 'assets/cairo.jpg'),
-    DestinationOption(label: 'Dubai', imagePath: 'assets/dubai.jpg'),
-    DestinationOption(label: 'Toronto', imagePath: 'assets/toronto.jpg'),
-    DestinationOption(label: 'Rio', imagePath: 'assets/rio.jpg'),
-    DestinationOption(label: 'Cape Town', imagePath: 'assets/capetown.jpg'),
-    DestinationOption(label: 'Barcelona', imagePath: 'assets/barcelona.jpg'),
+    DestinationOption(label: 'Bali', imagePath: 'assets/img2.jpg'),
+    DestinationOption(label: 'Serengeti TZ', imagePath: 'assets/img2.jpg'),
+    DestinationOption(label: 'Murchison falls', imagePath: 'assets/img4.jpg'),
+    DestinationOption(label: 'Norwegian Islands', imagePath: 'assets/img6.jpg'),
+    DestinationOption(
+        label: 'California Islands ', imagePath: 'assets/img5.jpg'),
+    DestinationOption(label: 'Bora Bora, French', imagePath: 'assets/img6.jpg'),
+    DestinationOption(label: 'Maldives', imagePath: 'assets/img7.jpg'),
+    DestinationOption(label: 'Las Vegas', imagePath: 'assets/img9.jpg'),
+    DestinationOption(
+        label: 'Faroe Islands Denmark', imagePath: 'assets/img11.jpg'),
   ];
 
   @override
@@ -63,7 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _startImageRotation();
   }
 
-  // Rotates background images every 5 seconds
+  // Rotation every-5s
   void _startImageRotation() {
     Future.delayed(const Duration(seconds: 5), () {
       setState(() {
@@ -78,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Animated background
+          // Animated b.ground
           AnimatedSwitcher(
             duration: const Duration(seconds: 1),
             child: Container(
@@ -96,7 +98,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           SafeArea(
             child: Column(
               children: [
-                // Thick Stepper
                 const SizedBox(height: 20),
                 _buildThickStepper(),
 
@@ -110,22 +111,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       _buildSelectInterestsPage(),
                       _buildSelectDestinationsPage(),
-                      // Replaced _buildSelectLanguagePage() with _buildSelectPlanPage()
                       _buildSelectPlanPage(),
                     ],
                   ),
                 ),
 
-                // Action Buttons (vertical)
+                // Action Buttons
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Skip for now
                       TextButton(
                         onPressed: () {
-                          // Jump to the last page or do something else
                           _pageController.jumpToPage(2);
                         },
                         child: const Text(
@@ -133,7 +131,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
-                      // Continue button
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green[600],
@@ -144,7 +141,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           textStyle: const TextStyle(fontSize: 16),
                         ),
                         onPressed: () {
-                          // Move to next page or finish
                           final page = _pageController.page?.round() ?? 0;
                           if (page < 2) {
                             _pageController.nextPage(
@@ -172,7 +168,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   //my stick_stepper build
   Widget _buildThickStepper() {
-    // Titles for the 3 steps
     final stepTitles = [
       'Select Interests',
       'Select Destinations',
@@ -233,7 +228,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  /// Page 1: Select Interests (radio buttons)
+  //Select Interests-am using radio buttons here
   Widget _buildSelectInterestsPage() {
     return Center(
       child: SingleChildScrollView(
@@ -285,6 +280,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               value: 5,
               onChanged: (val) => setState(() => _selectedInterest = val),
             ),
+            _buildRadioOption(
+              label: 'Wild Hunting',
+              groupValue: _selectedInterest,
+              value: 5,
+              onChanged: (val) => setState(() => val),
+            ),
+            _buildRadioOption(
+              label: 'Boat Cruising',
+              groupValue: _selectedInterest,
+              value: 5,
+              onChanged: (val) => setState(() => _selectedInterest = val),
+            )
           ],
         ),
       ),
@@ -314,7 +321,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             const SizedBox(height: 20),
 
-            // The grid of destination cards
+            // destination cards
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -366,7 +373,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        // Destination label
+
                         Text(
                           destination.label,
                           style: const TextStyle(

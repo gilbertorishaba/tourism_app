@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore import
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'my_drawer_header.dart';
 import 'services/firestore_service.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class Destination {
   final String title;
@@ -44,19 +45,18 @@ class _DestinationScreenState extends State<DestinationScreen> {
   List<Destination> filteredDestinations = [];
   String searchQuery = '';
   bool isLoading = true;
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Uncomment the next block for a one-time bulk insert of destinations.
 
-    // FirestoreService().addDestinationsToFirestore().then((_) {
-    //   print("Bulk insert complete.");
-    // }).catchError((error) {
-    //   print("Error during bulk insert: $error");
-    // });
+    // Initialize Speech-to-Text
+    _speech = stt.SpeechToText();
 
-    fetchDestinationsFromFirestore(); // Fetch data from Firestore
+    fetchDestinationsFromFirestore();
   }
 
   // Fetch destinations from Firestore
@@ -71,8 +71,32 @@ class _DestinationScreenState extends State<DestinationScreen> {
     setState(() {
       destinations = fetchedDestinations;
       filteredDestinations = fetchedDestinations;
-      isLoading = false; // Stop showing loading spinner
+      isLoading = false;
     });
+  }
+
+  // Function to start/stop voice listening
+  void _startListening() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => print('Status: $val'),
+        onError: (val) => print('Error: $val'),
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) => setState(() {
+            searchQuery = val.recognizedWords;
+            _filterDestinations(searchQuery);
+          }),
+        );
+      } else {
+        print('Speech recognition not available.');
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
   }
 
   // Function to filter destinations based on search query
@@ -88,6 +112,12 @@ class _DestinationScreenState extends State<DestinationScreen> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +126,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
       ),
       drawer: const MyDrawerHeader(),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator()) // Loading spinner
+          ? const Center(child: CircularProgressIndicator())
           : Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -116,23 +146,28 @@ class _DestinationScreenState extends State<DestinationScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  // Search bar
+
+                  // Search bar with voice search integration
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextField(
+                      controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'Search location or destination...',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         prefixIcon: const Icon(Icons.search),
+                        suffixIcon: IconButton(
+                          icon: Icon(_isListening ? Icons.mic : Icons.mic_none),
+                          onPressed: _startListening,
+                        ),
                       ),
                       onChanged: (value) {
                         setState(() {
                           searchQuery = value;
                         });
-                        _filterDestinations(
-                            value); // Call filter function on search change
+                        _filterDestinations(value);
                       },
                     ),
                   ),
@@ -158,7 +193,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Image.asset(destination.imageUrl),
+                                            Image.network(destination.imageUrl),
                                             const SizedBox(height: 10),
                                             Text(destination.description),
                                           ],
@@ -198,7 +233,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                             borderRadius:
                                                 const BorderRadius.vertical(
                                                     top: Radius.circular(15)),
-                                            child: Image.asset(
+                                            child: Image.network(
                                               destination.imageUrl,
                                               fit: BoxFit.cover,
                                               width: double.infinity,
@@ -229,7 +264,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                               Center(
                                                 child: ElevatedButton(
                                                   onPressed: () {
-                                                    // Pass data when navigating to the booking screen
+                                                    // Passing data when am moving to the booking screen
                                                     Navigator.pushNamed(
                                                       context,
                                                       '/booking',

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:tourism_app/services/auth_services.dart'; 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:tourism_app/services/auth_services.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -74,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false; // To show loading indicator
+  bool _isLoading = false;
 
   void _changeLanguage(String language) {
     setState(() {
@@ -117,13 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      // Use AuthService for sign-in
       await AuthService().signIn(email, password);
+
+      final String token = await AuthService().getIdToken();
+      print("Firebase ID Token: $token");
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login failed. Please try again.')),
       );
+      print("Login error: $e");
     } finally {
       setState(() {
         _isLoading = false;
@@ -137,8 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image:
-                AssetImage('assets/background.jpg'), // Ensure this asset exists
+            image: AssetImage('assets/background.jpg'),
             fit: BoxFit.cover,
             opacity: 0.4,
           ),
@@ -150,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50),
-
                 // Language Selection
                 Align(
                   alignment: Alignment.topCenter,
@@ -173,12 +177,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-
                 // App Logo
-                Image.asset('assets/logo.jpg',
-                    height: 100), // Ensure this asset exists
+                Image.asset('assets/logo.jpg', height: 100),
                 const SizedBox(height: 10),
-
                 const Text(
                   'Welcome to LAITI Tourism App',
                   textAlign: TextAlign.center,
@@ -189,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-
                 // Banner image
                 Container(
                   height: 220,
@@ -203,20 +203,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                     image: const DecorationImage(
-                      image: AssetImage(
-                          'assets/paris.jpg'), // Ensure this asset exists
+                      image: AssetImage('assets/paris.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
-
                 const Text(
                   'Login to your account',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 15),
-
                 // Email Input
                 TextField(
                   controller: _emailController,
@@ -227,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-
                 // Password Input
                 TextField(
                   controller: _passwordController,
@@ -239,7 +235,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                 ),
                 const SizedBox(height: 20),
-
                 // Login Button
                 Center(
                   child: SizedBox(
@@ -264,7 +259,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 // Forgot Password Button
                 Center(
                   child: TextButton(
@@ -278,7 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 // Register Button
                 Center(
                   child: TextButton(
@@ -291,9 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 // Social Login Options
                 Center(
                   child: Column(

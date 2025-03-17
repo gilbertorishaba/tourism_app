@@ -9,7 +9,7 @@ class DatabaseHelper {
 
   DatabaseHelper._init();
 
-  // Getter for database (initialize if null)
+  // Getter for database
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB('tourism_app.db');
@@ -60,7 +60,7 @@ class DatabaseHelper {
     ''');
   }
 
-  /////////// User CRUD Methods ///////////
+  // User CRUD Methods
 
   // Insert a user into the users table
   Future<int> insertUser(Map<String, dynamic> row) async {
@@ -86,9 +86,9 @@ class DatabaseHelper {
     return await db.delete('users', where: 'id = ?', whereArgs: [id]);
   }
 
-  /////////// Booking CRUD Methods ///////////
+  // Booking CRUD Methods
 
-  // Insert a booking into the bookings table
+  // Insert a booking into the bookings table`````
   Future<int> insertBooking(Map<String, dynamic> row) async {
     final db = await instance.database;
     return await db.insert('bookings', row);

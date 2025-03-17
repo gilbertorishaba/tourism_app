@@ -1,8 +1,9 @@
+// android/app/build.gradle
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id "dev.flutter.flutter-gradle-plugin"
+    id "dev.flutter.flutter-gradle-plugin" // Flutter plugin
+    id "com.google.gms.google-services"    // Google services plugin for Firebase
 }
 
 android {
@@ -16,12 +17,12 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "1.8"
     }
 
     defaultConfig {
         applicationId = "com.example.tourism_app"
-        minSdk = flutter.minSdkVersion
+        minSdk 23 // Minimum SDK version (Android 6.0)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -38,8 +39,12 @@ flutter {
     source = "../.."
 }
 
-// Add the Google services plugin below the flutter block:
-apply plugin: 'com.google.gms.google-services'
-
-
-
+dependencies {
+    // Import the Firebase BoM (Bill of Materials)
+    implementation platform('com.google.firebase:firebase-bom:33.10.0')
+    
+    // Add Firebase Analytics (or other Firebase dependencies, without specifying versions)
+    implementation 'com.google.firebase:firebase-analytics'
+    
+    // Other dependencies...
+}

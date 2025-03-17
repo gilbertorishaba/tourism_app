@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tourism_app/app_localizations.dart';
+import 'package:video_player/video_player.dart';
+import 'package:flutter/gestures.dart';
 
 void main() {
   runApp(const MyApp());
@@ -79,6 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 20),
               _buildPopularCategories(context),
               const SizedBox(height: 20),
+              const HoverTapVideoPlayer(),
+              const SizedBox(height: 20),
               const Text(
                 'Top Tourist Destinations',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -100,12 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCenteredText(BuildContext context) {
     return Center(
       child: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: 20), // Adds padding for better spacing
+        padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
-          color: Colors.teal.shade50, // Light teal background
-          borderRadius: BorderRadius.circular(15), // Rounded corners
-          boxShadow: [
+          color: Colors.teal.shade50,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               blurRadius: 10,
@@ -116,26 +119,26 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.star,
               color: Colors.teal,
-              size: 30, // Larger icon size
+              size: 30,
             ),
-            SizedBox(width: 8), // Space between icon and text
+            const SizedBox(width: 8),
             Text(
               'Welcome to LAITI',
               style: TextStyle(
-                fontSize: 30, // Increased font size
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: Colors.teal.shade800, // Teal color for text
-                fontFamily: 'Roboto', // Optional: Set a modern font family
+                color: Colors.teal.shade800,
+                fontFamily: 'Roboto',
               ),
             ),
-            SizedBox(width: 8), // Space between text and icon
-            Icon(
+            const SizedBox(width: 8),
+            const Icon(
               Icons.star,
               color: Colors.teal,
-              size: 30, // Larger icon size
+              size: 30,
             ),
           ],
         ),
@@ -285,18 +288,19 @@ Widget _buildDrawer(BuildContext context) {
           },
         ),
         ListTile(
-            leading: const Icon(CupertinoIcons.car),
-            title: Text(AppLocalizations.of(context)!.translate('booking')),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                '/booking',
-                arguments: {
-                  'destinationTitle': 'Maldives',
-                  'price': '500 USD',
-                },
-              );
-            }),
+          leading: const Icon(CupertinoIcons.car),
+          title: Text(AppLocalizations.of(context)!.translate('booking')),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              '/booking',
+              arguments: {
+                'destinationTitle': 'Maldives',
+                'price': '500 USD',
+              },
+            );
+          },
+        ),
         ListTile(
           leading: const Icon(CupertinoIcons.settings),
           title: const Text('Setting'),
@@ -347,6 +351,65 @@ class DestinationSearchDelegate extends SearchDelegate {
       children: [
         ListTile(title: Text('Suggested: $query')),
       ],
+    );
+  }
+}
+
+class HoverTapVideoPlayer extends StatefulWidget {
+  const HoverTapVideoPlayer({super.key});
+
+  @override
+  _HoverTapVideoPlayerState createState() => _HoverTapVideoPlayerState();
+}
+
+class _HoverTapVideoPlayerState extends State<HoverTapVideoPlayer> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/video.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onHoverEnter(PointerEnterEvent event) {
+    _controller.play();
+  }
+
+  void _onHoverExit(PointerExitEvent event) {
+    _controller.pause();
+  }
+
+  void _onTap() {
+    if (_controller.value.isPlaying) {
+      _controller.pause();
+    } else {
+      _controller.play();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: _onHoverEnter,
+      onExit: _onHoverExit,
+      child: GestureDetector(
+        onTap: _onTap,
+        child: _controller.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : const Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 }

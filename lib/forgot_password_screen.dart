@@ -88,10 +88,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
+                              return 'Please, enter your email';
                             }
                             if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                              return 'Please enter a valid email';
+                              return 'Please, enter a valid email';
                             }
                             return null;
                           },

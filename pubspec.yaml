@@ -23,9 +23,10 @@ dependencies:
   http: ^1.1.1
   dio: ^5.0.0
   shared_preferences: ^2.1.1
-  speech_to_text: ^6.0.2
+  speech_to_text: ^7.0.0
   intro_slider: ^3.0.0
   webview_flutter: ^4.0.6
+  # firebase
   firebase_core: ^3.12.1
   firebase_auth: ^5.0.1
   cloud_firestore: ^5.2.0
@@ -33,6 +34,9 @@ dependencies:
   firebase_messaging: ^15.0.0
   encrypt: ^5.0.1
   flutter_zoom_drawer: ^3.0.1
+  flutter_svg: ^2.0.0 
+  video_player: ^2.5.1 
+ 
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +70,7 @@ flutter:
     - assets/config/login_screen_config.json
     - assets/logo.png
     - assets/lang/en.json
+    - assets/video.mp4 
 
 fonts:
   - family: NotoSans

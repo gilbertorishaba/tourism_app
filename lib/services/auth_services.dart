@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  // Sign-In function
+  // Function for sign in (only for users with accounts in your application)
   Future<UserCredential> signIn(String email, String password) async {
     try {
       return await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -14,7 +14,7 @@ class AuthService {
     }
   }
 
-  // Sign-Up function
+  // Function for sign up new users
   Future<UserCredential> signUp(String email, String password) async {
     try {
       return await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -27,8 +27,13 @@ class AuthService {
     }
   }
 
-  // Sign-Out function (optional)
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+  Future<String> getIdToken() async {
+    print("Fetching Firebase ID Token...");
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not logged in');
+    final cleanedToken =
+        (await user.getIdToken())!.replaceAll(RegExp(r'\s+'), '');
+    print("Firebase ID Token: $cleanedToken");
+    return cleanedToken;
   }
 }
